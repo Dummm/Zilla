@@ -1,15 +1,17 @@
+
 # Zilla
 Jira clone for Web Application Development course
 
 ## Notes
-General
-	ASP.NET MVC 5
-	Form validation
-	UI + Front-end framework
-	UX
-	Admin full CRUD access
 
-User types
+### General
+ - ASP.NET MVC 5 
+ - Form validation 
+ - UI + Front-end framework 
+ - UX 
+ - Admin full CRUD access
+
+### User types
 	Guest
 		Access limited to homepage and authentication forms
 	User
@@ -27,13 +29,13 @@ User types
 		Task/team/comment/etc. management
 		Can change user's privileges
 	
-Functionalities
+### Functionalities
 	Project author becomes organizer automatically
 	Task statuses: Not started, In progress, Completed
 	Tasks listed on team page
 	User privilege management
 	
-Models (+Controllers)
+### Models (+Controllers)
 	User
 		Mail                                 : String
 		Password                             : String
@@ -75,16 +77,3 @@ Models (+Controllers)
 		? Title                              : String
 		Content                              : String
 		Creation date/Timestamp              : Date
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
