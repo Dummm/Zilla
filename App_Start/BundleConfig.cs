@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Proect
+namespace Zilla
 {
     public class BundleConfig
     {

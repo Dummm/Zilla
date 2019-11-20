@@ -10,9 +10,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using Proect.Models;
+using Zilla.Models;
 
-namespace Proect
+namespace Zilla
 {
     public class EmailService : IIdentityMessageService
     {
@@ -104,6 +104,16 @@ namespace Proect
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+        }
+
+        public class ApplicationRoleManager : RoleManager<IdentityRole>
+        {
+            public ApplicationRoleManager(IRoleStore<IdentityRole, string> store) : base(store) {}
+            public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+            {
+                var roleStore = new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>());
+                return new ApplicationRoleManager(roleStore);
+            }
         }
     }
 }

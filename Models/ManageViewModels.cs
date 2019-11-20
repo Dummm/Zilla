@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace Proect.Models
+namespace Zilla.Models
 {
     public class IndexViewModel
     {

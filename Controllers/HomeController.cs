@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Proect.Controllers
+namespace Zilla.Controllers
 {
     public class HomeController : Controller
     {

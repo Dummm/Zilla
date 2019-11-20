@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace Proect
+namespace Zilla
 {
     public class FilterConfig
     {

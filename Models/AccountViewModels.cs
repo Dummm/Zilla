@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Proect.Models
+namespace Zilla.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

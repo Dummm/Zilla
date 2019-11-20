@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Proect.Models;
+using Zilla.Models;
 
-namespace Proect.Controllers
+namespace Zilla.Controllers
 {
     [Authorize]
     public class ManageController : Controller
