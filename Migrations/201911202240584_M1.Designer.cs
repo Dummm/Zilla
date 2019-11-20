@@ -7,13 +7,13 @@ namespace Zilla.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class M3 : IMigrationMetadata
+    public sealed partial class M1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(M3));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(M1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201911202002403_M3"; }
+            get { return "201911202240584_M1"; }
         }
         
         string IMigrationMetadata.Source

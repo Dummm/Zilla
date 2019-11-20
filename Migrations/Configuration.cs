@@ -9,7 +9,7 @@ namespace Zilla.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Zilla.Models.ApplicationDbContext context)

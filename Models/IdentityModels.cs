@@ -12,16 +12,19 @@ namespace Zilla.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        /*[Required(ErrorMessage = "Please provide a display name.")]
-        public string DisplayName { get; set; }*/
+        public ApplicationUser()
+        {
+            Teams = new HashSet<Team>();
+            Projects = new HashSet<Project>();
+        }
+
+        /*[Required(ErrorMessage = "Please provide a display name.")]*/
+        /*public string DisplayName { get; set; }*/
         public string Description { get; set; }
         public SqlDateTime RegistrationDate { get; set; }
 
-        /*public ICollection<Project> Projects { get; set; }*/
-        /*public ICollection<Task> CreatedTasks { get; set; }*/
-        public ICollection<Team> Teams { get; set; }
-        public ICollection<ProjectTask> AssignedTasks { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Team> Teams { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -43,13 +46,35 @@ namespace Zilla.Models
         {
             return new ApplicationDbContext();
         }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-        public System.Data.Entity.DbSet<Zilla.Models.ProjectTask> ProjectTasks { get; set; }
+            /// One to many
+            /*modelBuilder.Entity<Comment>()
+                .HasRequired()*/
 
-        public System.Data.Entity.DbSet<Zilla.Models.Comment> Comments { get; set; }
+            /// Many to many
+            modelBuilder.Entity<Team>()
+                .HasMany(d => d.Members)
+                .WithMany(f => f.Teams)
+                .Map(w => w
+                    .ToTable("TeamMembers")
+                    .MapLeftKey("TeamId")
+                    .MapRightKey("ApplicationUserId"));
+            modelBuilder.Entity<Project>()
+                .HasMany(d => d.Organizers)
+                .WithMany(f => f.Projects)
+                .Map(w => w
+                    .ToTable("ProjectOrganizers")
+                    .MapLeftKey("ProjectId")
+                    .MapRightKey("OrganizerId"));
 
-        public System.Data.Entity.DbSet<Zilla.Models.Project> Projects { get; set; }
+        }
 
-        public System.Data.Entity.DbSet<Zilla.Models.Team> Teams { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Team> Teams { get; set; }
     }
 }
