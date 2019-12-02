@@ -1,5 +1,5 @@
 
-# Zilla
+![Zilla Logo](logo.png)
 Jira clone for Web Application Development course
 
 ## Notes
