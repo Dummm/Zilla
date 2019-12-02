@@ -1,0 +1,32 @@
+﻿@import "bootstrap/functions";
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+
+* {
+    font-family: 'Open Sans';
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'PT Mono';
+    }
+}
+
+body {
+    min-height: 100vh;
+}
+
+$enable-rounded: false;
+$enable-shadows: true;
+$enable-gradients: false;
+$enable-transitions: true;
+$enable-grid-classes: true;
+$enable-print-styles: true;
+
+$theme-colors: ( 
+    primary: $black
+);
+$link-color: $body-color;
+
+$navbar-padding-x: $spacer * 10;
+$navbar-brand-font-size: $font-size-lg * 1.25;
+
+@import "bootstrap/bootstrap.scss";
