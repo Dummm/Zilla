@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Zilla.Models;
@@ -13,16 +17,19 @@ using Zilla.Models;
 namespace Zilla.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountsController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+        //private IdentityDbContext<ApplicationUser> idb = new IdentityDbContext<ApplicationUser>();
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public AccountsController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountsController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -52,8 +59,243 @@ namespace Zilla.Controllers
             }
         }
 
+        #region Changes 
+
+        // GET: Accounts
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> Index()
+        {
+            List<IndexAccountViewModel> userList = new List<IndexAccountViewModel>();
+            foreach(ApplicationUser user in await db.Users.ToListAsync())
+            {
+                System.Diagnostics.Debug.WriteLine("muie");
+                IndexAccountViewModel vm = new IndexAccountViewModel()
+                {
+                    Description = user.Description,
+                    Email = user.Email,
+                    EmailConfirmed = user.EmailConfirmed,
+                    PasswordHash = user.PasswordHash,
+                    SecurityStamp = user.SecurityStamp,
+                    PhoneNumber = user.PhoneNumber,
+                    PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+                    TwoFactorEnabled = user.TwoFactorEnabled,
+                    LockoutEndDateUtc = user.LockoutEndDateUtc,
+                    LockoutEnabled = user.LockoutEnabled,
+                    AccessFailedCount = user.AccessFailedCount,
+                    UserName = user.UserName,
+                    RolesList = await UserManager.GetRolesAsync(user.Id)
+                };
+                userList.Add(vm);
+            }
+            userList.Reverse();
+            IEnumerable<IndexAccountViewModel> ul = userList;
+            return View(ul);
+        }
+
+        // GET: Accounts/Details/5
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser user = UserManager.FindByName(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            //return View(user);
+
+            var userRoles = await UserManager.GetRolesAsync(user.Id);
+            var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+
+            return View(
+                new DetailsAccountViewModel()
+                {
+                    Description = user.Description,
+                    Email = user.Email,
+                    EmailConfirmed = user.EmailConfirmed,
+                    PasswordHash = user.PasswordHash,
+                    SecurityStamp = user.SecurityStamp,
+                    PhoneNumber = user.PhoneNumber,
+                    PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+                    TwoFactorEnabled = user.TwoFactorEnabled,
+                    LockoutEndDateUtc = user.LockoutEndDateUtc,
+                    LockoutEnabled = user.LockoutEnabled,
+                    AccessFailedCount = user.AccessFailedCount,
+                    UserName = user.UserName,
+                    RolesList = userRoles
+                    
+                }
+            );
+        }
+
+        /*
+         * TODO: Replace with register
+        // GET: Accounts/Create
+        [Authorize(Roles = "Administrator")]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Accounts/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> Create([Bind(Include = "Id,Description,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser user, string role)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser au = new ApplicationUser();
+                au.Description = user.Description;
+                au.Email = user.Email;
+                au.EmailConfirmed = user.EmailConfirmed;
+                au.PasswordHash = user.PasswordHash;
+                au.SecurityStamp = user.SecurityStamp;
+                au.PhoneNumber = user.PhoneNumber;
+                au.PhoneNumberConfirmed = user.PhoneNumberConfirmed;
+                au.TwoFactorEnabled = user.TwoFactorEnabled;
+                au.LockoutEndDateUtc = user.LockoutEndDateUtc;
+                au.LockoutEnabled = user.LockoutEnabled;
+                au.AccessFailedCount = user.AccessFailedCount;
+                au.UserName = user.UserName;
+                UserManager.AddToRoleAsync(au.Id, user.Roles.ToString());
+                
+
+                await UserManager.CreateAsync(au);
+
+                return RedirectToAction("Index");
+            }
+
+            return View(user);
+        }
+       */
+
+        // GET: Accounts/Edit/5
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ApplicationUser user = UserManager.FindByName(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            //return View(user);
+
+            var userRoles = await UserManager.GetRolesAsync(user.Id);
+            var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+
+            return View(
+                new EditAccountViewModel()
+                {
+                    Description = user.Description,
+                    Email = user.Email,
+                    EmailConfirmed = user.EmailConfirmed,
+                    PasswordHash = user.PasswordHash,
+                    SecurityStamp = user.SecurityStamp,
+                    PhoneNumber = user.PhoneNumber,
+                    PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+                    TwoFactorEnabled = user.TwoFactorEnabled,
+                    LockoutEndDateUtc = user.LockoutEndDateUtc,
+                    LockoutEnabled = user.LockoutEnabled,
+                    AccessFailedCount = user.AccessFailedCount,
+                    UserName = user.UserName,
+                    RolesList = rm.Roles.ToList().Select(x => new SelectListItem()
+                    {
+                        Selected = userRoles.Contains(x.Name),
+                        Text = x.Name,
+                        Value = x.Name
+                    })
+                }
+            );
+        }
+        // POST: Accounts/Edit/5
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(
+            string id, 
+            [Bind(Include = "Id,Description,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser, 
+            params string[] selectedRole)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser au = UserManager.FindByName(id);
+                au.Description = applicationUser.Description;
+                au.Email = applicationUser.Email;
+                au.EmailConfirmed = applicationUser.EmailConfirmed;
+                au.PasswordHash = applicationUser.PasswordHash;
+                au.SecurityStamp = applicationUser.SecurityStamp;
+                au.PhoneNumber = applicationUser.PhoneNumber;
+                au.PhoneNumberConfirmed = applicationUser.PhoneNumberConfirmed;
+                au.TwoFactorEnabled = applicationUser.TwoFactorEnabled;
+                au.LockoutEndDateUtc = applicationUser.LockoutEndDateUtc;
+                au.LockoutEnabled = applicationUser.LockoutEnabled;
+                au.AccessFailedCount = applicationUser.AccessFailedCount;
+                au.UserName = applicationUser.UserName;
+
+                var userRoles = await UserManager.GetRolesAsync(au.Id);
+                selectedRole = selectedRole ?? new string[] { };
+                var result = await UserManager.AddToRolesAsync(au.Id,
+                    selectedRole.Except(userRoles).ToArray<string>());
+
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("", result.Errors.First());
+                    return View();
+                }
+                result = await UserManager.RemoveFromRolesAsync(au.Id,
+                    userRoles.Except(selectedRole).ToArray<string>());
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("", result.Errors.First());
+                    return View();
+                }
+
+
+                await UserManager.UpdateAsync(au);
+                return RedirectToAction("Index");
+            }
+            return View(applicationUser);
+        }
+
+        // GET: Accounts/Delete/5
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = await UserManager.FindByNameAsync(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+        // POST: Accounts/Delete/5
+        [Authorize(Roles = "Administrator")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(string id)
+        {
+            ApplicationUser user = await UserManager.FindByNameAsync(id);
+            await UserManager.DeleteAsync(user);
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
         //
-        // GET: /Account/Login
+        // GET: /Accounts/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -62,7 +304,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // POST: /Account/Login
+        // POST: /Accounts/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -75,7 +317,7 @@ namespace Zilla.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -92,7 +334,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // GET: /Account/VerifyCode
+        // GET: /Accounts/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
@@ -105,7 +347,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // POST: /Account/VerifyCode
+        // POST: /Accounts/VerifyCode
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -135,7 +377,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // GET: /Account/Register
+        // GET: /Accounts/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
@@ -143,7 +385,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // POST: /Account/Register
+        // POST: /Accounts/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -160,7 +402,7 @@ namespace Zilla.Controllers
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Accounts", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     UserManager.AddToRole(user.Id, "User");
 
@@ -174,7 +416,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // GET: /Account/ConfirmEmail
+        // GET: /Accounts/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
@@ -187,7 +429,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // GET: /Account/ForgotPassword
+        // GET: /Accounts/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
@@ -195,7 +437,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // POST: /Account/ForgotPassword
+        // POST: /Accounts/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -213,9 +455,9 @@ namespace Zilla.Controllers
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                // var callbackUrl = Url.Action("ResetPassword", "Accounts", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                // return RedirectToAction("ForgotPasswordConfirmation", "Accounts");
             }
 
             // If we got this far, something failed, redisplay form
@@ -223,7 +465,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // GET: /Account/ForgotPasswordConfirmation
+        // GET: /Accounts/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
@@ -231,7 +473,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // GET: /Account/ResetPassword
+        // GET: /Accounts/ResetPassword
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
@@ -239,7 +481,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // POST: /Account/ResetPassword
+        // POST: /Accounts/ResetPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -253,19 +495,19 @@ namespace Zilla.Controllers
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("ResetPasswordConfirmation", "Accounts");
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("ResetPasswordConfirmation", "Accounts");
             }
             AddErrors(result);
             return View();
         }
 
         //
-        // GET: /Account/ResetPasswordConfirmation
+        // GET: /Accounts/ResetPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
@@ -273,18 +515,18 @@ namespace Zilla.Controllers
         }
 
         //
-        // POST: /Account/ExternalLogin
+        // POST: /Accounts/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
             // Request a redirect to the external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Accounts", new { ReturnUrl = returnUrl }));
         }
 
         //
-        // GET: /Account/SendCode
+        // GET: /Accounts/SendCode
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
@@ -299,7 +541,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // POST: /Account/SendCode
+        // POST: /Accounts/SendCode
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -319,7 +561,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // GET: /Account/ExternalLoginCallback
+        // GET: /Accounts/ExternalLoginCallback
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
@@ -349,7 +591,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // POST: /Account/ExternalLoginConfirmation
+        // POST: /Accounts/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -387,7 +629,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // POST: /Account/LogOff
+        // POST: /Accounts/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
@@ -397,7 +639,7 @@ namespace Zilla.Controllers
         }
 
         //
-        // GET: /Account/ExternalLoginFailure
+        // GET: /Accounts/ExternalLoginFailure
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {

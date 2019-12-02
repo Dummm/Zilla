@@ -24,7 +24,7 @@ namespace Zilla
             AddRole("User", roleManager);
 
             AddUser(
-                "admin@admin.com", 
+                "admin", 
                 "admin@admin.com", 
                 "Administrator1!", 
                 userManager,
@@ -51,6 +51,12 @@ namespace Zilla
             if (adminCreated.Succeeded)
             {
                 userManager.AddToRole(user.Id, role);
+            }
+            else
+            {
+                foreach(var e in adminCreated.Errors) {
+                    System.Diagnostics.Debug.WriteLine(e);
+                }
             }
         }
     }
