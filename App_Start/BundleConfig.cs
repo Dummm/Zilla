@@ -20,7 +20,7 @@ namespace Zilla
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.bundle.js",
+                      //"~/Scripts/bootstrap.bundle.js",
                       "~/Scripts/bootstrap.js"));
 
 

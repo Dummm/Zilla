@@ -180,14 +180,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\IdentityExtensions.cs" />
     <Compile Include="Migrations\201911202240584_M1.cs" />
     <Compile Include="Migrations\201911202240584_M1.Designer.cs">
       <DependentUpon>201911202240584_M1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912031751137_M2.cs" />
+    <Compile Include="Migrations\201912031751137_M2.Designer.cs">
+      <DependentUpon>201912031751137_M2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IdentityOptions.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -208,8 +214,13 @@
     <Content Include="Content\custom.min.css">
       <DependentUpon>custom.css</DependentUpon>
     </Content>
+    <Content Include="Content\img\avatars\3.png" />
+    <Content Include="Content\img\avatars\1.png" />
+    <Content Include="Content\img\avatars\4.png" />
+    <Content Include="Content\img\avatars\2.png" />
     <Content Include="Content\img\logo.svg" />
     <Content Include="Content\img\logo_min.svg" />
+    <Content Include="Content\img\skyline.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -466,6 +477,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Manage\ChangeAvatar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -478,6 +490,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201911202240584_M1.resx">
       <DependentUpon>201911202240584_M1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912031751137_M2.resx">
+      <DependentUpon>201912031751137_M2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

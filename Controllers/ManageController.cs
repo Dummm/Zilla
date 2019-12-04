@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -7,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Zilla.Models;
+using Zilla.Helpers;
 
 namespace Zilla.Controllers
 {
@@ -98,6 +100,54 @@ namespace Zilla.Controllers
             }
             return RedirectToAction("ManageLogins", new { Message = message });
         }
+
+
+        #region Changes
+
+        //
+        // GET: /Manage/ChangeAvatar
+        public async Task<ActionResult> ChangeAvatar()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Manage/AddPhoneNumber
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeAvatar(ChangeAvatarViewModel model)
+        {
+            System.Diagnostics.Debug.WriteLine(model.Avatar.ContentLength);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            try
+            {
+                if (model.Avatar.ContentLength > 0)
+                {
+                    ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+                    byte[] bytes = new byte[model.Avatar.ContentLength];
+                    using (BinaryReader theReader = new BinaryReader(model.Avatar.InputStream))
+                    {
+                        bytes = theReader.ReadBytes(model.Avatar.ContentLength);
+                    }
+                    user.Avatar = Convert.ToBase64String(bytes);
+
+                    await UserManager.UpdateAsync(user);
+                }
+                ViewBag.Message = "File Uploaded Successfully!!";
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                ViewBag.Message = "File upload failed!!";
+                return View(model);
+            }
+        }
+
+        #endregion
 
         //
         // GET: /Manage/AddPhoneNumber

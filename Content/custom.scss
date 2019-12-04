@@ -2,9 +2,33 @@
 @import "bootstrap/variables";
 @import "bootstrap/mixins";
 
+//$enable-rounded: false;
+$enable-rounded: true;
+$border-radius: .1rem;
+$border-radius-lg: .15rem;
+$border-radius-sm: .05rem;
+
+$enable-shadows: true;
+$enable-gradients: false;
+$enable-transitions: true;
+$enable-grid-classes: true;
+$enable-print-styles: true;
+
+$dark: $black;
+
+$theme-colors: ( primary: $black );
+$theme-color: ( primary: $black );
+//$link-color: $body-color;
+//$link-color: theme-color("primary") !important;
+
+$navbar-padding-x: $spacer * 10;
+$navbar-padding-y: $spacer;
+$navbar-brand-font-size: $font-size-lg * 1.25;
+
 * {
     font-family: 'Open Sans';
 
+    .navbar *,
     h1, h2, h3, h4, h5, h6 {
         font-family: 'PT Mono';
     }
@@ -12,21 +36,43 @@
 
 body {
     min-height: 100vh;
+
+    .bg-dark {
+        background: $dark url('img/skyline.png');
+        background-size: contain;
+    }
+
+    .navbar {
+
+        .nav-link {
+            font-size: 1.33rem;
+            text-shadow: 
+                -1px -1px 0 lighten($dark, 1.5%), 
+                 1px -1px 0 lighten($dark, 1.5%), 
+                -1px  1px 0 lighten($dark, 1.5%),   
+                 1px  1px 0 lighten($dark, 1.5%);
+        }
+
+        .navbar-brand {
+            margin-right: 2rem;
+
+            img {
+                height: 40px;
+            }
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(1, 1, 1, .8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+
+        #currentUserAvatar {
+            border: 1px solid $border-color;
+            border-radius: $border-radius;
+            height: 40px;
+            background-color: #FFF;
+        }
+    }
 }
-
-$enable-rounded: false;
-$enable-shadows: true;
-$enable-gradients: false;
-$enable-transitions: true;
-$enable-grid-classes: true;
-$enable-print-styles: true;
-
-$theme-colors: ( 
-    primary: $black
-);
-$link-color: $body-color;
-
-$navbar-padding-x: $spacer * 10;
-$navbar-brand-font-size: $font-size-lg * 1.25;
 
 @import "bootstrap/bootstrap.scss";
