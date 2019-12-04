@@ -15,7 +15,7 @@ namespace Zilla.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "ce-i cu numele asta dubios?";
 
             return View();
         }

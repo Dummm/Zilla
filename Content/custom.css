@@ -16,13 +16,11 @@ body {
     margin-right: 2rem; }
     body .navbar .navbar-brand img {
       height: 40px; }
-  body .navbar .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(1, 1, 1, .8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
   body .navbar #currentUserAvatar {
     border: 1px solid #dee2e6;
     border-radius: 0.1rem;
     height: 40px;
-    background-color: #FFF; }
+    background-color: rgba(255, 255, 255, 0.75); }
 
 /*!
  * Bootstrap v4.4.1 (https://getbootstrap.com/)
@@ -3101,7 +3099,7 @@ input[type="button"].btn-block {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 10rem; }
+  padding: 1rem 3.5rem; }
   .navbar .container, .navbar .container-fluid, .navbar .container-sm, .navbar .container-md, .navbar .container-lg, .navbar .container-xl {
     display: flex;
     flex-wrap: wrap;
@@ -3112,7 +3110,7 @@ input[type="button"].btn-block {
   display: inline-block;
   padding-top: 0.3125rem;
   padding-bottom: 0.3125rem;
-  margin-right: 10rem;
+  margin-right: 3.5rem;
   font-size: 1.5625rem;
   line-height: inherit;
   white-space: nowrap; }
