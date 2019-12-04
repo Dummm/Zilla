@@ -8,11 +8,13 @@ namespace Zilla.Controllers
 {
     public class HomeController : Controller
     {
+        [Route("/")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Route("About")]
         public ActionResult About()
         {
             ViewBag.Message = "ce-i cu numele asta dubios?";
@@ -20,6 +22,7 @@ namespace Zilla.Controllers
             return View();
         }
 
+        [Route("/Contact")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

@@ -13,6 +13,26 @@ namespace Zilla
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //routes.MapMvcAttributeRoutes();
+
+
+            routes.MapRoute(
+                name: "AboutFaraCasa",
+                url: "About",
+                defaults: new { controller = "Home", action = "About" }
+            );
+            routes.MapRoute(
+                name: "ContactFaraCasa",
+                url: "Contact",
+                defaults: new { controller = "Home", action = "Contact" }
+            );
+
+            routes.MapRoute(
+                name: "Index",
+                url: "{controller}",
+                defaults: new { action = "Index" }
+            );
+            
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

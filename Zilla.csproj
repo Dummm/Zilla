@@ -177,6 +177,7 @@
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -222,6 +223,7 @@
     <Content Include="Content\img\avatars\1.png" />
     <Content Include="Content\img\avatars\4.png" />
     <Content Include="Content\img\avatars\2.png" />
+    <Content Include="Content\img\crumble.png" />
     <Content Include="Content\img\logo.svg" />
     <Content Include="Content\img\logo_min.svg" />
     <Content Include="Content\img\skyline.png" />
@@ -487,6 +489,12 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Manage\ChangeAvatar.cshtml" />
     <None Include="manifest.json" />
+    <Content Include="Views\Teams\Create.cshtml" />
+    <Content Include="Views\Teams\Delete.cshtml" />
+    <Content Include="Views\Teams\Details.cshtml" />
+    <Content Include="Views\Teams\Edit.cshtml" />
+    <Content Include="Views\Teams\Index.cshtml" />
+    <Content Include="Views\Teams\Members.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

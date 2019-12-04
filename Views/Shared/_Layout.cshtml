@@ -32,10 +32,15 @@
                     <a class="nav-link" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    @Html.ActionLink("About", "About", "Home", null, htmlAttributes: new { @class = "nav-link" })
+                    @*@Html.ActionLink("About", "About", "Home", null, htmlAttributes: new { @class = "nav-link" })*@
+                    <a class="nav-link" href="@Url.Action("About", "Home")">About</a>
+
                 </li>
                 <li class="nav-item">
                     @Html.ActionLink("Contact", "Contact", "Home", null, htmlAttributes: new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Teams", "Index", "Teams", null, htmlAttributes: new { @class = "nav-link" })
                 </li>
                 @if (this.User.IsInRole("Administrator"))
                 {
@@ -52,13 +57,13 @@
             @Html.Partial("_LoginPartial")
         </div>
     </nav>
-    <div class="container body-content">
+    @*<div class="container body-content bg-dark text-white">*@
+    <div class="container body-content bg-white">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Ba, pleaca de aici</p>
-        </footer>
     </div>
+    <footer class="text-center text-white">
+        <p>&copy; @DateTime.Now.Year - Ba, pleaca de aici</p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")

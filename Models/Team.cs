@@ -25,4 +25,9 @@ namespace Zilla.Models
 
         public virtual ICollection<Project> Projects { get; set; }
     }
+
+    public class MembersViewModel
+    {
+
+    }
 }
