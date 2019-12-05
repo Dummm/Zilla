@@ -48,7 +48,9 @@ namespace Zilla.Controllers
             {
                 return HttpNotFound();
             }
-            return View(team);
+            return View(
+                new MembersViewModel { Team = team, Members = team.Members }
+            );
         }
 
         // POST: Teams/Members/5

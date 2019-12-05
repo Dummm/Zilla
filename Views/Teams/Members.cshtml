@@ -1,9 +1,4 @@
-﻿@model IEnumerable<Zilla.Models.ApplicationUser>
-
-@{
-    ViewBag.Title = "Members";
-}
-
+﻿@model Zilla.Models.MembersViewModel
 <h2>Members</h2>
 
 <p>
@@ -12,48 +7,48 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayName("Description")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Avatar)
+            @Html.DisplayName("Avatar")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayName("Email")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EmailConfirmed)
+            @Html.DisplayName("EmailConfirmed")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PasswordHash)
+            @Html.DisplayName("PasswordHash")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SecurityStamp)
+            @Html.DisplayName("SecurityStamp")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            @Html.DisplayName("PhoneNumber")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
+            @Html.DisplayName("PhoneNumberConfirmed")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TwoFactorEnabled)
+            @Html.DisplayName("TwoFactorEnabled")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LockoutEndDateUtc)
+            @Html.DisplayName("LockoutEndDateUtc")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LockoutEnabled)
+            @Html.DisplayName("LockoutEnabled")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AccessFailedCount)
+            @Html.DisplayName("AccessFailedCount")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.DisplayName("UserName")
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Members) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Description)

@@ -28,6 +28,11 @@ namespace Zilla.Models
 
     public class MembersViewModel
     {
+        [Display(Name = "Team")]
+        public Team Team { get; set; }
 
+        [Display(Name = "Members")]
+        public IEnumerable<ApplicationUser> Members { get; set; }
     }
+
 }
