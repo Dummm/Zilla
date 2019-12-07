@@ -30,6 +30,9 @@ namespace Zilla
                 "~/Scripts/umd/popper-utils.min.js",
                 "~/Scripts/umd/popper.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/custom-js").Include(
+                "~/Scripts/custom.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 /*"~/Content/bootstrap/bootstrap.css",*/
                 "~/Content/bootstrap-select.css",

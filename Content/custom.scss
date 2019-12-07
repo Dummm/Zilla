@@ -19,8 +19,32 @@ $dark: #2A2A2A;
 $body-bg: #505050;
 //$body-color: $white;
 
-$theme-colors: ( "primary": $dark );
-$theme-color: ( "primary": $dark );
+//$theme-colors: ( "primary": $dark );
+$theme-colors: ( 
+    "primary": $dark,
+    //"primary": #4582EC,
+    "secondary": #adb5bd,
+    "success": #02B875,
+    "danger": #d9534f,
+    "info": #17a2b8,
+    "warning": #f0ad4e,
+    "light": #f8f9fa,
+    "dark": #2A2A2A 
+);
+/*
+$theme-colors: ( 
+    "primary": $dark,
+    //"primary": #07689F,
+    "secondary": #C9D6DF,
+    "success": #11D3BC,
+    "danger": #F67280,
+    "info": #A2D5F2,
+    "warning": #FF7E67,
+    "light": #FAFAFA,
+    "dark": #2A2A2A 
+);
+*/
+//$theme-color: ( "primary": $dark );
 $component-active-bg: red;
 //$dropdown-link-active-bg: theme-color("primary");
 
@@ -77,18 +101,35 @@ body {
             background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, .8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
+        #navbarDropdown {
+            display: grid;
+            grid-template-areas: 'user avatar arrow';
+            grid-gap: 0.5rem;
+            align-items: center;
 
-        #currentUserAvatar {
-            border: 1px solid $border-color;
-            border-radius: $border-radius;
-            height: 40px;
-            background-color: rgba(255,255,255, 0.75);
+            #currentUserUsername {
+                grid-area: user;
+                text-align: end;
+            }
+
+            #currentUserRole {
+                font-size: small;
+            }
+
+            #currentUserAvatar {
+                grid-area: avatar;
+                border: 1px solid $border-color;
+                border-radius: $border-radius;
+                height: 45px;
+                background-color: rgba(255,255,255, 0.75);
+            }
         }
     }
 
     .body-content {
         min-height: 75vh;
         margin-top: 2rem;
+        margin-bottom: 2rem;
         padding: 2rem;
         border-radius: 0.25rem;
 

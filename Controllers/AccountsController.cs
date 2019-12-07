@@ -258,8 +258,16 @@ namespace Zilla.Controllers
                     return View();
                 }
 
-
                 await UserManager.UpdateAsync(au);
+
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Accounts",
+                    Date = DateTime.Now,
+                    Body = "Account edit succesful!",
+                    Type = ToastType.Success
+                };
+
                 return RedirectToAction("Index");
             }
             return View(applicationUser);
@@ -288,6 +296,13 @@ namespace Zilla.Controllers
         {
             ApplicationUser user = await UserManager.FindByNameAsync(id);
             await UserManager.DeleteAsync(user);
+            TempData["Toast"] = new Toast
+            {
+                Title = "Accounts",
+                Date = DateTime.Now,
+                Body = "Account deletion succesful!",
+                Type = ToastType.Success
+            };
             return RedirectToAction("Index");
         }
 
@@ -311,6 +326,13 @@ namespace Zilla.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Sign in",
+                    Date = DateTime.Now,
+                    Body = "Invalid login credentials!",
+                    Type = ToastType.Danger
+                };
                 return View(model);
             }
 
@@ -320,14 +342,42 @@ namespace Zilla.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    TempData["Toast"] = new Toast
+                    {
+                        Title = "Login",
+                        Date = DateTime.Now,
+                        Body = "You have succesfully logged in!",
+                        Type = ToastType.Success
+                    };
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
+                    TempData["Toast"] = new Toast
+                    {
+                        Title = "Login",
+                        Date = DateTime.Now,
+                        Body = "Your account is locked out!",
+                        Type = ToastType.Warning
+                    };
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
+                    TempData["Toast"] = new Toast
+                    {
+                        Title = "Login",
+                        Date = DateTime.Now,
+                        Body = "You have to verify your account!",
+                        Type = ToastType.Warning
+                    };
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    TempData["Toast"] = new Toast
+                    {
+                        Title = "Login",
+                        Date = DateTime.Now,
+                        Body = "Invalid login attempt!",
+                        Type = ToastType.Danger
+                    };
+                    //ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
         }
@@ -354,6 +404,13 @@ namespace Zilla.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Verification",
+                    Date = DateTime.Now,
+                    Body = "Invalid verification data!",
+                    Type = ToastType.Danger
+                };
                 return View(model);
             }
 
@@ -365,11 +422,32 @@ namespace Zilla.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    TempData["Toast"] = new Toast
+                    {
+                        Title = "Verification",
+                        Date = DateTime.Now,
+                        Body = "You have successfully verified your account!",
+                        Type = ToastType.Success
+                    };
                     return RedirectToLocal(model.ReturnUrl);
                 case SignInStatus.LockedOut:
+                    TempData["Toast"] = new Toast
+                    {
+                        Title = "Verification",
+                        Date = DateTime.Now,
+                        Body = "Your account is locked out!",
+                        Type = ToastType.Warning
+                    };
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
+                    TempData["Toast"] = new Toast
+                    {
+                        Title = "Verification",
+                        Date = DateTime.Now,
+                        Body = "Invalid code!",
+                        Type = ToastType.Danger
+                    };
                     ModelState.AddModelError("", "Invalid code.");
                     return View(model);
             }
@@ -417,11 +495,25 @@ namespace Zilla.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     UserManager.AddToRole(user.Id, "User");
 
+                    TempData["Toast"] = new Toast
+                    {
+                        Title = "Sign up",
+                        Date = DateTime.Now,
+                        Body = "You have succesfully signed up!",
+                        Type = ToastType.Success
+                    };
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
 
+            TempData["Toast"] = new Toast
+            {
+                Title = "Sign up",
+                Date = DateTime.Now,
+                Body = "Invalid sign up credentials!",
+                Type = ToastType.Danger
+            };
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -646,6 +738,13 @@ namespace Zilla.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            TempData["Toast"] = new Toast
+            {
+                Title = "Log out",
+                Date = DateTime.Now,
+                Body = "You have logged out successfully!",
+                Type = ToastType.Success
+            };
             return RedirectToAction("Index", "Home");
         }
 
