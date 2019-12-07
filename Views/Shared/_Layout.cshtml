@@ -58,17 +58,17 @@
         </div>
     </nav>
     @*<div class="container body-content bg-dark text-white">*@
-    <div class="container body-content bg-white shadow">    
+    <div class="container body-content bg-white shadow">
         @if (TempData.ContainsKey("Toast"))
-        {            
+        {
             System.Diagnostics.Debug.WriteLine("u");
             Html.RenderPartial(
-                "_ToastPanel", 
+                "_ToastPanel",
                 (Zilla.Models.Toast)TempData["Toast"]
             );
         }
-        @*    
-        @Html.Partial("_ToastPanel")
+        @*
+            @Html.Partial("_ToastPanel")
         *@
         @RenderBody()
     </div>
@@ -81,6 +81,7 @@
     @Scripts.Render("~/bundles/popper")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/bootstrap-select")
+    @Scripts.Render("~/bundles/font-awesome")
     @Scripts.Render("~/bundles/custom-js")
     @RenderSection("scripts", required: false)
 </body>

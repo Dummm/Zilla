@@ -1,4 +1,10 @@
-﻿@import "bootstrap/functions";
+﻿$fa-font-path: "../fonts/FontAwesome";
+@import "FontAwesome/fontawesome.scss";
+@import "FontAwesome/regular.scss";
+@import "FontAwesome/solid.scss";
+@import "FontAwesome/brands.scss";
+
+@import "bootstrap/functions";
 @import "bootstrap/variables";
 @import "bootstrap/mixins";
 
@@ -19,11 +25,15 @@ $dark: #2A2A2A;
 $body-bg: #505050;
 //$body-color: $white;
 
+$accent: #F5D472;
+$accent-darker: #C1AF7A;
+
 //$theme-colors: ( "primary": $dark );
 $theme-colors: ( 
     "primary": $dark,
     //"primary": #4582EC,
-    "secondary": #adb5bd,
+    //"secondary": #adb5bd,
+    "secondary": $accent-darker,
     "success": #02B875,
     "danger": #d9534f,
     "info": #17a2b8,
@@ -45,8 +55,8 @@ $theme-colors: (
 );
 */
 //$theme-color: ( "primary": $dark );
-$component-active-bg: red;
-//$dropdown-link-active-bg: theme-color("primary");
+$dropdown-link-hover-bg: theme-color("secondary");
+$dropdown-link-active-bg: theme-color("primary");
 
 //$link-color: $body-color;
 //$link-color: theme-color("primary") !important;nt;
@@ -59,9 +69,29 @@ $navbar-dark-color: rgba($white, .6);
 * {
     font-family: 'Open Sans';
 
-    .navbar *,
-    h1, h2, h3, h4, h5, h6 {
+    .navbar * /*,
+    h1, h2, h3, h4, h5, h6 */ {
         font-family: 'PT Mono';
+    }
+
+    .pageHeading {
+        font-size: 5.5rem;
+        font-weight: bold;
+        margin-bottom: 2rem;
+
+        span {
+            margin-left: 0.5rem;
+            text-shadow: -0.4rem 0.4rem #F5D472;
+        }
+    }
+
+    .pageSubheading {
+        transform: translate(-2rem, 0);
+        width: calc(100% + 4rem);
+        padding: 0.75rem 2rem;
+        background-color: $accent-darker;
+        color: white;
+        margin-bottom: 1rem;
     }
 }
 
@@ -132,6 +162,7 @@ body {
         margin-bottom: 2rem;
         padding: 2rem;
         border-radius: 0.25rem;
+        overflow: hidden;
 
         .addMemberItem {
             img {
