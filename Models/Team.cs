@@ -45,4 +45,13 @@ namespace Zilla.Models
         public IEnumerable<SelectListItem> Users { get; set; }
     }
 
+    public class RemoveMemberViewModel
+    {
+        [Display(Name = "Team")]
+        public Team Team { get; set; }
+
+        [Display(Name = "Member")]
+        public ApplicationUser User { get; set; }
+    }
+
 }

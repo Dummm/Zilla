@@ -15,6 +15,13 @@ namespace Zilla
 
             //routes.MapMvcAttributeRoutes();
 
+
+            routes.MapRoute(
+                name: "TeamMemberRemoval",
+                url: "Teams/RemoveMember/{id}/{memberIndex}",
+                defaults: new { controller = "Teams", action = "RemoveMember" }
+            );
+
             #region Tweaks 
             /*
             routes.MapRoute(

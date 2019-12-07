@@ -1,0 +1,23 @@
+﻿@model Zilla.Models.RemoveMemberViewModel
+
+@{
+    ViewBag.Title = "RemoveMember";
+}
+
+<h2>RemoveMember</h2>
+<h3>Are you sure you want to remove member @Model.User.UserName from @Model.Team.Title?</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HttpMethodOverride(HttpVerbs.Delete)
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Delete" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+

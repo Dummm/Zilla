@@ -108,7 +108,6 @@ namespace Zilla.Controllers
             );
             
         }
-        
         // POST: Teams/AddMember/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -132,11 +131,88 @@ namespace Zilla.Controllers
                 }
 
                 await db.SaveChangesAsync();
+
+                TempData["Toast"] = new Toast {
+                    Title = "Team",
+                    Body = "Member successfully added!",
+                    Type = ToastType.Success
+                };
+
                 return RedirectToAction("Index");
             }
+            TempData["Toast"] = new Toast
+            {
+                Title = "Team",
+                Body = "Member add unsuccessful!",
+                Type = ToastType.Danger
+            };
             return View(team);
         }
-        
+
+        // Get: Teams/RemoveMember/5/1
+        public async Task<ActionResult> RemoveMember (string id, string memberIndex)
+        {
+            if (id == null || memberIndex == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Team team = await db.Teams.FindAsync(int.Parse(id));
+            if (team == null)
+            {
+                return HttpNotFound();
+            }
+
+            ApplicationUser user = team.Members.ElementAt(int.Parse(memberIndex));
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(
+                new RemoveMemberViewModel
+                {
+                    Team = team,
+                    User = user
+                }
+            );
+
+        }
+        // DELETE: Teams/RemoveMember/5
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveMember(
+            string id,
+            string memberIndex,
+            RemoveMemberViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                Team t = await db.Teams.FindAsync(int.Parse(id));
+                ApplicationUser u = db.Users.Find(
+                    t.Members.ElementAt(int.Parse(memberIndex)).Id
+                );
+
+                t.Members.Remove(u);
+                
+                await db.SaveChangesAsync();
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Team",
+                    Body = "Member successfully removed!",
+                    Type = ToastType.Success
+                };
+                return RedirectToAction("Index");
+            }
+            TempData["Toast"] = new Toast
+            {
+                Title = "Team",
+                Body = "Member removal unsuccessful!",
+                Type = ToastType.Danger
+            };
+            return View(model);
+        }
 
 
         // GET: Teams/Create
