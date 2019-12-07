@@ -1,0 +1,92 @@
+﻿@model Zilla.Models.AddMemberViewModel
+
+@{
+    ViewBag.Title = "AddMember";
+}
+
+<h2>AddMember</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Member</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @*    
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            *@
+            <div class="col-md-10">
+                @*    
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                *@
+                
+                @Html.DropDownListFor(
+                    model => model.AddedMembers,
+                    Model.Users,
+                    "Select users",
+                    new { 
+                        @class = "selectpicker",
+                        data_style="",
+                        data_size="5",
+                        data_live_search="true",
+                        data_actions_box="true",
+                        data_selected_text_format="count > 3"
+                    }
+                )   
+
+                @*    
+                <select 
+                    multiple 
+                    class="selectpicker" 
+                    data-style=""
+                    data-size="5"
+                    data-live-search="true"
+                    data-actions-box="true"
+                    data-selected-text-format="count > 3">
+    
+                    <optgroup label="Current members" disabled>
+                        @foreach (var item in Model.Team.Members)
+                        {
+                            <option 
+                                data-content="
+                                    <span class='addMemberItem'>
+                                        @(item.UserName)
+                                    </span>
+                                ">
+                                @(item.UserName)
+                            </option>
+                        }
+                    </optgroup>
+                    <optgroup label="Users">
+                        @foreach (var item in Model.Users)
+                        {
+                            <option   
+                                data-val="true"
+                                data-val-required="baga, ma"
+                                name="selectedUser"
+                                data-content="
+                                    <span class='addMemberItem'>
+                                        @(item.Text)
+                                    </span>
+                                ">
+                                @(item.Text)
+                            </option>
+                        }
+                    </optgroup>
+                </select>
+                *@
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+

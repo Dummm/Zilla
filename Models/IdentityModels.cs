@@ -78,5 +78,16 @@ namespace Zilla.Models
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Team> Teams { get; set; }
+        //public DbSet<TeamMembers> TeamMembers { get; set; }
     }
+
+    /*
+    public class TeamMembers
+    {
+        [Key]
+        public int TeamId { get; set; }
+        [Key]
+        public string ApplicationUserId { get; set; }
+    }
+    */
 }

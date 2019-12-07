@@ -8,12 +8,26 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Zilla.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Zilla.Controllers
 {
     public class TeamsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: Teams
         public async Task<ActionResult> Index()
@@ -66,21 +80,63 @@ namespace Zilla.Controllers
             }
             return View(team);
         }
-        /*
-        // POST: Teams/RemoveMember/5/15
+
+        // GET: Teams/AddMember/5
+        public async Task<ActionResult> AddMember(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Team team = await db.Teams.FindAsync(id);
+            if (team == null)
+            {
+                return HttpNotFound();
+            }
+            //return View();
+            ICollection<ApplicationUser> users = await db.Users.ToListAsync();
+            users = users.Except(team.Members).ToList();
+            return View(
+                new AddMemberViewModel { 
+                    Users = users.Select(x => new SelectListItem()
+                    {
+                        Selected = false,
+                        Text = x.UserName,
+                        Value = x.UserName
+                    })
+                }
+            );
+            
+        }
+        
+        // POST: Teams/AddMember/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RemoveMember([Bind(Include = "TeamId,Members")] Team team, int? id)
+        public async Task<ActionResult> AddMember(
+            string id,
+            AddMemberViewModel team)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(team).State = EntityState.Modified;
+                Team t = db.Teams.Find(int.Parse(id));
+                foreach(string username in team.AddedMembers)
+                {
+                    ApplicationUser user = await UserManager.FindByNameAsync(username);
+                    user = db.Users.Find(user.Id);
+                    if (user != null)
+                        //db.TeamMembers.Add(new TeamMembers {
+                        //    TeamId = t.TeamId, 
+                        //    ApplicationUserId = user.Id });
+                        t.Members.Add(user);
+
+                }
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(team);
         }
-        */
+        
 
 
         // GET: Teams/Create

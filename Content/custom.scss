@@ -18,14 +18,19 @@ $dark: #2A2A2A;
 
 $body-bg: #505050;
 //$body-color: $white;
-$theme-colors: ( primary: $black );
-$theme-color: ( primary: $black );
+
+$theme-colors: ( "primary": $dark );
+$theme-color: ( "primary": $dark );
+$component-active-bg: red;
+//$dropdown-link-active-bg: theme-color("primary");
+
 //$link-color: $body-color;
-//$link-color: theme-color("primary") !important;
+//$link-color: theme-color("primary") !important;nt;
 
 $navbar-padding-x: $spacer * 5;
 $navbar-padding-y: $spacer;
 $navbar-brand-font-size: $font-size-lg * 1.25;
+$navbar-dark-color: rgba($white, .6);
 
 * {
     font-family: 'Open Sans';
@@ -49,6 +54,8 @@ body {
     .navbar.bg-dark {
         background: $dark url('img/skyline.png');
         background-size: contain;
+        background-position: bottom;
+        background-repeat: repeat-x;
     }
 
     .navbar {
@@ -84,12 +91,22 @@ body {
         margin-top: 2rem;
         padding: 2rem;
         border-radius: 0.25rem;
+
+        .addMemberItem {
+            img {
+                height: 30px;
+                width: 30px;
+                border: 1px solid #dee2e6;
+                border-radius: 0.1rem;
+                background-color: rgba(255, 255, 255, 0.75);
+            }
+        }
     }
 
     footer {
         padding: 4rem 0 1rem 0;
         background: $dark url(img/crumble.png);
-        background-size: contain;
+        background-position: top;
         background-repeat: repeat-x;
         background-size: auto 60%;
     }
@@ -97,7 +114,6 @@ body {
     p {
         margin: 0;
     }
-
 }
 
 @import "bootstrap/bootstrap.scss";

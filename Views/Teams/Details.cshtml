@@ -31,7 +31,12 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Members)
+            @foreach (var item in Model.Members)
+            {
+                <p>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                </p>
+            }
         </dd>
 
     </dl>

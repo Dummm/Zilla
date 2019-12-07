@@ -67,9 +67,12 @@ namespace Zilla
             }
             else
             {
+                ;
+                /*
                 foreach(var e in adminCreated.Errors) {
                     System.Diagnostics.Debug.WriteLine(e);
                 }
+                */
             }
         }
     }

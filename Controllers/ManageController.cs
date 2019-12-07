@@ -117,7 +117,6 @@ namespace Zilla.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangeAvatar(ChangeAvatarViewModel model)
         {
-            System.Diagnostics.Debug.WriteLine(model.Avatar.ContentLength);
             if (!ModelState.IsValid)
             {
                 return View(model);

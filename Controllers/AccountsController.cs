@@ -68,7 +68,6 @@ namespace Zilla.Controllers
             List<IndexAccountViewModel> userList = new List<IndexAccountViewModel>();
             foreach(ApplicationUser user in await db.Users.ToListAsync())
             {
-                System.Diagnostics.Debug.WriteLine("muie");
                 IndexAccountViewModel vm = new IndexAccountViewModel()
                 {
                     Description = user.Description,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Zilla.Models
 {
@@ -33,6 +34,15 @@ namespace Zilla.Models
 
         [Display(Name = "Members")]
         public IEnumerable<ApplicationUser> Members { get; set; }
+    }
+
+    public class AddMemberViewModel
+    {
+        [Display(Name = "Added members")]
+        public List<string> AddedMembers { get; set; }
+
+        [Display(Name = "Users")]
+        public IEnumerable<SelectListItem> Users { get; set; }
     }
 
 }
