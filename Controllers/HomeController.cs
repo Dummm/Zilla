@@ -17,7 +17,7 @@ namespace Zilla.Controllers
         [Route("About")]
         public ActionResult About()
         {
-            ViewBag.Message = "ce-i cu numele asta dubios?";
+            ViewBag.Message = "mhm da?";
 
             return View();
         }
@@ -25,7 +25,7 @@ namespace Zilla.Controllers
         [Route("/Contact")]
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "ce.";
 
             return View();
         }

@@ -98,6 +98,7 @@ namespace Zilla.Controllers
             users = users.Except(team.Members).ToList();
             return View(
                 new AddMemberViewModel { 
+                    Team = team, 
                     Users = users.Select(x => new SelectListItem()
                     {
                         Selected = false,

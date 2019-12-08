@@ -25,8 +25,11 @@ $dark: #2A2A2A;
 $body-bg: #505050;
 //$body-color: $white;
 
-$accent: #F5D472;
-$accent-darker: #C1AF7A;
+//$accent: #F5D472;
+//$accent-darker: #c7a643;
+$accent: #EF9A9A;
+//$accent-darker: #C1AF7A;
+$accent-darker: #f76969;
 
 //$theme-colors: ( "primary": $dark );
 $theme-colors: ( 
@@ -35,8 +38,8 @@ $theme-colors: (
     //"secondary": #adb5bd,
     "secondary": $accent-darker,
     "success": #02B875,
-    "danger": #d9534f,
-    "info": #17a2b8,
+    "danger": #F5624F,
+    "info": #03658C,
     "warning": #f0ad4e,
     "light": #f8f9fa,
     "dark": #2A2A2A 
@@ -58,7 +61,7 @@ $theme-colors: (
 $dropdown-link-hover-bg: theme-color("secondary");
 $dropdown-link-active-bg: theme-color("primary");
 
-//$link-color: $body-color;
+$link-color: $accent-darker;
 //$link-color: theme-color("primary") !important;nt;
 
 $navbar-padding-x: $spacer * 5;
@@ -75,13 +78,13 @@ $navbar-dark-color: rgba($white, .6);
     }
 
     .pageHeading {
-        font-size: 5.5rem;
+        font-size: 5rem;
         font-weight: bold;
         margin-bottom: 2rem;
 
         span {
             margin-left: 0.5rem;
-            text-shadow: -0.4rem 0.4rem #F5D472;
+            text-shadow: -0.3rem 0.3rem $accent;
         }
     }
 
@@ -89,9 +92,27 @@ $navbar-dark-color: rgba($white, .6);
         transform: translate(-2rem, 0);
         width: calc(100% + 4rem);
         padding: 0.75rem 2rem;
-        background-color: $accent-darker;
+        background: linear-gradient(90deg, $accent-darker, #FFFFFF 80%);
         color: white;
         margin-bottom: 1rem;
+    }
+
+    .pageContent {
+        table {
+            border: 1px solid #dee2e6;
+
+            td:not(:last-child) {
+                width: 50%;
+            }
+
+            td:last-child {
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .iconAction svg {
+        margin-right: .25rem;
     }
 }
 

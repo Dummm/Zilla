@@ -38,6 +38,9 @@ namespace Zilla.Models
 
     public class AddMemberViewModel
     {
+        [Display(Name = "Team")]
+        public Team Team { get; set; }
+
         [Display(Name = "Added members")]
         public List<string> AddedMembers { get; set; }
 
