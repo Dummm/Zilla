@@ -2,10 +2,15 @@
     ViewBag.Title = "Contact";
 }
 <h1 class="pageHeading">
-    <i class="fas fa-building" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+    <i class="fas fa-at" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
     <span>@ViewBag.Title.</span>
 </h1>
-<h2 class="pageSubheading">@ViewBag.Message</h2>
+<h2 class="pageSubheading">
+    <span>@ViewBag.Message</span>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Home")">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+</h2>
 
 <address>
     One Microsoft Way<br />

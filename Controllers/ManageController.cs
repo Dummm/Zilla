@@ -135,8 +135,9 @@ namespace Zilla.Controllers
                     user.Avatar = Convert.ToBase64String(bytes);
 
                     await UserManager.UpdateAsync(user);
+                    SignInManager.SignIn(user, false, false);
                 }
-                ViewBag.Message = "File Uploaded Successfully!!";
+                ViewBag.Message = "File Uploaded Successfully!!"; 
                 return RedirectToAction("Index");
             }
             catch

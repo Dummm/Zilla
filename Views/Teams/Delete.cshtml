@@ -10,7 +10,7 @@
     <span>@ViewBag.Title.</span>
 </h1>
 <h2 class="pageSubheading">
-    @ViewBag.Message
+    <span>@ViewBag.Message</span>
     <a class="btn btn-primary text-white float-right" href="@Url.Action("Details", "Teams", new { id = Model.TeamId })">
         <i class="fas fa-info"></i> Details
     </a>
@@ -23,36 +23,14 @@
 </h2>
 <div class="pageContent">
     <h3>Are you sure you want to delete @Model.Title?</h3>
-    <div>
-        <h4>Team</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-
-        </dl>
-
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-
-            <div class="form-actions no-color">
-                <input type="submit" value="Delete" class="btn btn-default" /> |
-                @Html.ActionLink("Back to List", "Index")
-            </div>
-        }
-    </div>
+   
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-trash-alt"></i> Delete
+            </button>
+        </div>
+    }
 </div>

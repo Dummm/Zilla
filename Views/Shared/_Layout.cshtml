@@ -61,7 +61,6 @@
     <div class="container body-content bg-white shadow">
         @if (TempData.ContainsKey("Toast"))
         {
-            System.Diagnostics.Debug.WriteLine("u");
             Html.RenderPartial(
                 "_ToastPanel",
                 (Zilla.Models.Toast)TempData["Toast"]

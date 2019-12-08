@@ -139,7 +139,7 @@ namespace Zilla.Controllers
                     Type = ToastType.Success
                 };
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = t.TeamId });
             }
             TempData["Toast"] = new Toast
             {
@@ -204,7 +204,7 @@ namespace Zilla.Controllers
                     Body = "Member successfully removed!",
                     Type = ToastType.Success
                 };
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = t.TeamId });
             }
             TempData["Toast"] = new Toast
             {

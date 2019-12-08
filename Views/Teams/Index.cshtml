@@ -8,7 +8,8 @@
     <i class="fas fa-users" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
     <span>@ViewBag.Title.</span>
 </h1>
-<h2 class="pageSubheading">@ViewBag.Message
+<h2 class="pageSubheading">
+    <span>@ViewBag.Message</span>
     <a class="btn btn-primary text-white float-right" href="@Url.Action("Create", "Teams")">
         <i class="fas fa-plus"></i> Create team
     </a>
@@ -17,8 +18,8 @@
     </a>
 </h2>
 <div class="pageContent">
-    <table class="table table-sm table-hover">
-        <thead class="thead-dark">
+    <table class="table table-bordered table-sm table-striped table-hover">
+        <thead>
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Title)
@@ -33,13 +34,13 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="w-50">
                     <a href="@Url.Action("Details", "Teams", new { id = item.TeamId })">
                         @Html.DisplayFor(modelItem => item.Title)                    
                     </a>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                <td class="w-50">
+                    <p>@Html.DisplayFor(modelItem => item.Description)</p>
                 </td>
                 <td>
                     <a class="iconAction text-primary" href="@Url.Action("Edit", "Teams", new { id = item.TeamId })"><i class="fas fa-edit"></i></a>

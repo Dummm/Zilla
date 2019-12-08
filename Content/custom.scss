@@ -8,8 +8,8 @@
 @import "bootstrap/variables";
 @import "bootstrap/mixins";
 
-//$enable-rounded: false;
-$enable-rounded: true;
+$enable-rounded: false;
+//$enable-rounded: true;
 $border-radius: .1rem;
 $border-radius-lg: .15rem;
 $border-radius-sm: .05rem;
@@ -72,9 +72,23 @@ $navbar-dark-color: rgba($white, .6);
 * {
     font-family: 'Open Sans';
 
-    .navbar * /*,
-    h1, h2, h3, h4, h5, h6 */ {
-        font-family: 'PT Mono';
+    .btn {
+        border: 0 !important;
+    }
+
+    .btn:hover {
+        transform: scale(1.01);
+    }
+
+    .navbar * {
+        font-family: 'PT Mono' !important;
+    }
+
+
+    h1, h2, h3, h4, h5, h6 {
+        span {
+            font-family: 'PT Mono' !important;
+        }
     }
 
     .pageHeading {
@@ -94,25 +108,43 @@ $navbar-dark-color: rgba($white, .6);
         padding: 0.75rem 2rem;
         background: linear-gradient(90deg, $accent-darker, #FFFFFF 80%);
         color: white;
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
+        span {
+            letter-spacing: 1rem;
+        }
     }
 
     .pageContent {
-        table {
-            border: 1px solid #dee2e6;
+        #teamDetailsPanel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
 
-            td:not(:last-child) {
-                width: 50%;
+        table {
+            thead,
+            tbody {
+                border: 1px solid $dark;
             }
 
-            td:last-child {
-                white-space: nowrap;
+            td {
+                a:not(.iconAction) {
+                    width: 100%;
+                    display: inline-block;
+                }
+
+                &:last-child {
+                    white-space: nowrap;
+                }
             }
         }
     }
 
     .iconAction svg {
         margin-right: .25rem;
+    }
+
+    .iconAction:first-child svg {
+        margin-left: .25rem;
     }
 }
 
