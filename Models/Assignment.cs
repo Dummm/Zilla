@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Zilla.Models
 {   
@@ -15,13 +17,13 @@ namespace Zilla.Models
 
     public class Assignment
     {
-        /*public Assignment()
+        public Assignment()
         {
             Comments = new HashSet<Comment>();
-        }*/
+        }
 
         [Key]
-        public int Id { get; set; }
+        public int AssignmentId { get; set; }
 
         [Required(ErrorMessage = "baga titlu")]
         public string Title { get; set; }
@@ -39,8 +41,22 @@ namespace Zilla.Models
 
         public virtual ApplicationUser Assignee { get; set; }
 
+        //[ForeignKey("ProjectId")]
         public virtual Project Project { get; set; }
-        
+
+        //[ForeignKey("Id")]
         public virtual ICollection<Comment> Comments { get; set; }
+    }
+
+    public class CreateAssignmentViewModel
+    {
+        [Display(Name = "Assignment")]
+        public Assignment Assignment { get; set; }
+
+        [Display(Name = "Added Projects")]
+        public string AddedProject{ get; set; }
+
+        [Display(Name = "Projects")]
+        public IEnumerable<SelectListItem> Projects { get; set; }
     }
 }

@@ -1,11 +1,11 @@
-﻿@model Zilla.Models.RemoveMemberViewModel
+﻿@model Zilla.Models.RemoveOrganizerViewModel
 
 @{
-    ViewBag.Title = "RemoveMember";
+    ViewBag.Title = "RemoveOrganizer";
 }
 
-<h2>RemoveMember</h2>
-<h3>Are you sure you want to remove member @Model.User.UserName from @Model.Team.Title?</h3>
+<h2>RemoveOrganizer</h2>
+<h3>Are you sure you want to remove Organizer @Model.User.UserName from @Model.Project.Title?</h3>
 
 @using (Html.BeginForm())
 {

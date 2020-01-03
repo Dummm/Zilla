@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.SqlTypes;
 using System.Security.Claims;
@@ -14,7 +15,6 @@ namespace Zilla.Models
     {
         public ApplicationUser()
         {
-            Teams = new HashSet<Team>();
             Projects = new HashSet<Project>();
         }
 
@@ -23,7 +23,7 @@ namespace Zilla.Models
         public string Description { get; set; }
         public SqlDateTime RegistrationDate { get; set; }
 
-        public virtual ICollection<Team> Teams { get; set; }
+        //[ForeignKey("ProjectId")]
         public virtual ICollection<Project> Projects { get; set; }
         public string Avatar { get; set; }
 
@@ -48,46 +48,48 @@ namespace Zilla.Models
         {
             return new ApplicationDbContext();
         }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             /// One to many
-            /*modelBuilder.Entity<Comment>()
-                .HasRequired()*/
+            /*
+            modelBuilder.Entity<Project>()
+                .HasMany(d => d.Assignments)
+                .WithRequired(f => f.Project);
+             */
 
             /// Many to many
-            modelBuilder.Entity<Team>()
+            /*
+            */
+            modelBuilder.Entity<Project>()
                 .HasMany(d => d.Members)
-                .WithMany(f => f.Teams)
+                .WithMany(f => f.Projects)
                 .Map(w => w
-                    .ToTable("TeamMembers")
-                    .MapLeftKey("TeamId")
-                    .MapRightKey("ApplicationUserId"));
+                    .ToTable("ProjectsMembers")
+                    .MapLeftKey("ProjectId")
+                    .MapRightKey("Id"));
+
+            // De ce nu merge? da
+            /*
             modelBuilder.Entity<Project>()
                 .HasMany(d => d.Organizers)
                 .WithMany(f => f.Projects)
                 .Map(w => w
-                    .ToTable("ProjectOrganizers")
-                    .MapLeftKey("ProjectId")
-                    .MapRightKey("OrganizerId"));
-
+                    .ToTable("ProjectsOrganizers")
+                    .MapLeftKey("ProjectsId")
+                    .MapRightKey("ApplicationUserId"));
+                    */
         }
 
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<Team> Teams { get; set; }
-        //public DbSet<TeamMembers> TeamMembers { get; set; }
+        //public DbSet<ApplicationUser> Members { get; set; }
+        //public DbSet<ApplicationUser> Organizers { get; set; }
+
+
     }
 
-    /*
-    public class TeamMembers
-    {
-        [Key]
-        public int TeamId { get; set; }
-        [Key]
-        public string ApplicationUserId { get; set; }
-    }
-    */
 }

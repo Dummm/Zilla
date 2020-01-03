@@ -9,7 +9,7 @@ namespace Zilla.Models
     public class Comment
     {
         [Key]
-        public int Id { get; set; }
+        public int CommentId { get; set; }
 
         public virtual ApplicationUser Author { get; set; }
 

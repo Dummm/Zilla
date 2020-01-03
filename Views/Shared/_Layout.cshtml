@@ -40,7 +40,10 @@
                     @Html.ActionLink("Contact", "Contact", "Home", null, htmlAttributes: new { @class = "nav-link" })
                 </li>
                 <li class="nav-item">
-                    @Html.ActionLink("Teams", "Index", "Teams", null, htmlAttributes: new { @class = "nav-link" })
+                    @Html.ActionLink("Projects", "Index", "Projects", null, htmlAttributes: new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Assignments", "Index", "Assignments", null, htmlAttributes: new { @class = "nav-link" })
                 </li>
                 @if (this.User.IsInRole("Administrator"))
                 {

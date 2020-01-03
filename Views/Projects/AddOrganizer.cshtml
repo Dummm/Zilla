@@ -1,0 +1,62 @@
+﻿@model Zilla.Models.AddOrganizerViewModel
+
+@{
+    ViewBag.Title = "Projects";
+    ViewBag.Message = Model.Project.Title + " - Add Organizer";
+}
+
+<h1 class="pageHeading">
+    <i class="fas fa-users" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+    <span>@ViewBag.Title.</span>
+</h1>
+<h2 class="pageSubheading">
+    <span>@ViewBag.Message</span>
+    <a class="btn btn-danger text-white float-right" href="@Url.Action("Delete", "Projects", new { id = Model.Project.ProjectId })">
+        <i class="fas fa-trash-alt"></i> Delete
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Details", "Projects", new { id = Model.Project.ProjectId })">
+        <i class="fas fa-info"></i> Details
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Edit", "Projects", new { id = Model.Project.ProjectId })">
+        <i class="fas fa-edit"></i> Edit
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Projects")">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+</h2>
+<div class="pageContent">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Organizer</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.DropDownListFor(
+                        model => model.AddedOrganizers,
+                        Model.Users,
+                        "Select users",
+                        new
+                             {
+                            @class = "selectpicker",
+                            data_style = "btn-light",
+                            data_size = "5",
+                            data_live_search = "true",
+                            data_actions_box = "true",
+                            data_selected_text_format = "count > 3"
+                        }
+                    )
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>

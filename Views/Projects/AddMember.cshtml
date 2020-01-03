@@ -1,8 +1,8 @@
 ﻿@model Zilla.Models.AddMemberViewModel
 
 @{
-    ViewBag.Title = "Teams";
-    ViewBag.Message = Model.Team.Title + " - Add member";
+    ViewBag.Title = "Projects";
+    ViewBag.Message = Model.Project.Title + " - Add member";
 }
 
 <h1 class="pageHeading">
@@ -11,16 +11,16 @@
 </h1>
 <h2 class="pageSubheading">
     <span>@ViewBag.Message</span>
-    <a class="btn btn-danger text-white float-right" href="@Url.Action("Delete", "Teams", new { id = Model.Team.TeamId })">
+    <a class="btn btn-danger text-white float-right" href="@Url.Action("Delete", "Projects", new { id = Model.Project.ProjectId })">
         <i class="fas fa-trash-alt"></i> Delete
     </a>
-    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Details", "Teams", new { id = Model.Team.TeamId })">
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Details", "Projects", new { id = Model.Project.ProjectId })">
         <i class="fas fa-info"></i> Details
     </a>
-    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Edit", "Teams", new { id = Model.Team.TeamId })">
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Edit", "Projects", new { id = Model.Project.ProjectId })">
         <i class="fas fa-edit"></i> Edit
     </a>
-    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Teams")">
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Projects")">
         <i class="fas fa-arrow-left"></i> Back
     </a>
 </h2>

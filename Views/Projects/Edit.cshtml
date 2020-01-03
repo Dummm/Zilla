@@ -1,8 +1,8 @@
-﻿@model Zilla.Models.Team
+﻿@model Zilla.Models.Project
 
 @{
-    ViewBag.Title = "Teams";
-    ViewBag.Message = "Create team";
+    ViewBag.Title = "Projects";
+    ViewBag.Message = Model.Title + " - Edit";
 }
 
 <h1 class="pageHeading">
@@ -11,7 +11,13 @@
 </h1>
 <h2 class="pageSubheading">
     <span>@ViewBag.Message</span>
-    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Teams")">
+    <a class="btn btn-danger text-white float-right" href="@Url.Action("Delete", "Projects", new { id = Model.ProjectId })">
+        <i class="fas fa-trash-alt"></i> Delete
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Details", "Projects", new { id = Model.ProjectId })">
+        <i class="fas fa-info"></i> Details
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Projects")">
         <i class="fas fa-arrow-left"></i> Back
     </a>
 </h2>
@@ -22,6 +28,8 @@
 
         <div class="form-horizontal">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ProjectId)
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -41,7 +49,7 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Create
+                        <i class="fas fa-edit"></i> Edit
                     </button>
                 </div>
             </div>

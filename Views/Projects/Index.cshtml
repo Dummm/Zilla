@@ -1,8 +1,8 @@
-﻿@model IEnumerable<Zilla.Models.Team>
+﻿@model IEnumerable<Zilla.Models.Project>
 
 @{
-    ViewBag.Title = "Teams";
-    ViewBag.Message = "All teams";
+    ViewBag.Title = "Projects";
+    ViewBag.Message = "All Projects";
 }
 <h1 class="pageHeading">
     <i class="fas fa-users" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
@@ -10,8 +10,8 @@
 </h1>
 <h2 class="pageSubheading">
     <span>@ViewBag.Message</span>
-    <a class="btn btn-primary text-white float-right" href="@Url.Action("Create", "Teams")">
-        <i class="fas fa-plus"></i> Create team
+    <a class="btn btn-primary text-white float-right" href="@Url.Action("Create", "Projects")">
+        <i class="fas fa-plus"></i> Create Project
     </a>
     <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Home")">
         <i class="fas fa-arrow-left"></i> Back
@@ -35,7 +35,7 @@
         {
             <tr>
                 <td class="w-50">
-                    <a href="@Url.Action("Details", "Teams", new { id = item.TeamId })">
+                    <a href="@Url.Action("Details", "Projects", new { id = item.ProjectId })">
                         @Html.DisplayFor(modelItem => item.Title)                    
                     </a>
                 </td>
@@ -43,9 +43,9 @@
                     <p>@Html.DisplayFor(modelItem => item.Description)</p>
                 </td>
                 <td>
-                    <a class="iconAction text-primary" href="@Url.Action("Edit", "Teams", new { id = item.TeamId })"><i class="fas fa-edit"></i></a>
-                    <a class="iconAction text-info" href="@Url.Action("Details", "Teams", new { id = item.TeamId })"><i class="fas fa-info"></i></a>
-                    <a class="iconAction text-danger" href="@Url.Action("Delete", "Teams", new { id = item.TeamId })"><i class="fas fa-trash-alt"></i></a>
+                    <a class="iconAction text-primary" href="@Url.Action("Edit", "Projects", new { id = item.ProjectId })"><i class="fas fa-edit"></i></a>
+                    <a class="iconAction text-info" href="@Url.Action("Details", "Projects", new { id = item.ProjectId })"><i class="fas fa-info"></i></a>
+                    <a class="iconAction text-danger" href="@Url.Action("Delete", "Projects", new { id = item.ProjectId })"><i class="fas fa-trash-alt"></i></a>
                 </td>
             </tr>
         }

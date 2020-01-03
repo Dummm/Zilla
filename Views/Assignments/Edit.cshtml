@@ -1,0 +1,69 @@
+﻿.AssignmentIdmodel Zilla.Models.Assignment
+
+.AssignmentId{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+.AssignmentIdusing (Html.BeginForm())
+{
+    .AssignmentIdHtml.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Assignment</h4>
+        <hr />
+        .AssignmentIdHtml.ValidationSummary(true, "", new { .AssignmentIdclass = "text-danger" })
+        .AssignmentIdHtml.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            .AssignmentIdHtml.LabelFor(model => model.Title, htmlAttributes: new { .AssignmentIdclass = "control-label col-md-2" })
+            <div class="col-md-10">
+                .AssignmentIdHtml.EditorFor(model => model.Title, new { htmlAttributes = new { .AssignmentIdclass = "form-control" } })
+                .AssignmentIdHtml.ValidationMessageFor(model => model.Title, "", new { .AssignmentIdclass = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            .AssignmentIdHtml.LabelFor(model => model.Description, htmlAttributes: new { .AssignmentIdclass = "control-label col-md-2" })
+            <div class="col-md-10">
+                .AssignmentIdHtml.EditorFor(model => model.Description, new { htmlAttributes = new { .AssignmentIdclass = "form-control" } })
+                .AssignmentIdHtml.ValidationMessageFor(model => model.Description, "", new { .AssignmentIdclass = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            .AssignmentIdHtml.LabelFor(model => model.Status, htmlAttributes: new { .AssignmentIdclass = "control-label col-md-2" })
+            <div class="col-md-10">
+                .AssignmentIdHtml.EnumDropDownListFor(model => model.Status, htmlAttributes: new { .AssignmentIdclass = "form-control" })
+                .AssignmentIdHtml.ValidationMessageFor(model => model.Status, "", new { .AssignmentIdclass = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            .AssignmentIdHtml.LabelFor(model => model.StartDate, htmlAttributes: new { .AssignmentIdclass = "control-label col-md-2" })
+            <div class="col-md-10">
+                .AssignmentIdHtml.EditorFor(model => model.StartDate, new { htmlAttributes = new { .AssignmentIdclass = "form-control" } })
+                .AssignmentIdHtml.ValidationMessageFor(model => model.StartDate, "", new { .AssignmentIdclass = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            .AssignmentIdHtml.LabelFor(model => model.EndDate, htmlAttributes: new { .AssignmentIdclass = "control-label col-md-2" })
+            <div class="col-md-10">
+                .AssignmentIdHtml.EditorFor(model => model.EndDate, new { htmlAttributes = new { .AssignmentIdclass = "form-control" } })
+                .AssignmentIdHtml.ValidationMessageFor(model => model.EndDate, "", new { .AssignmentIdclass = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    .AssignmentIdHtml.ActionLink("Back to List", "Index")
+</div>

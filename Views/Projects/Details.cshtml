@@ -1,0 +1,131 @@
+﻿@model Zilla.Models.Project
+
+@{
+    ViewBag.Title = "Projects";
+    ViewBag.Message = Model.Title;
+}
+
+<h1 class="pageHeading">
+    <i class="fas fa-users" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+    <span>@ViewBag.Title.</span>
+</h1>
+<h2 class="pageSubheading">
+    <span>@ViewBag.Message</span>
+    <a class="btn btn-danger text-white float-right" href="@Url.Action("Delete", "Projects", new { id = Model.ProjectId })">
+        <i class="fas fa-trash-alt"></i> Delete
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Edit", "Projects", new { id = Model.ProjectId })">
+        <i class="fas fa-edit"></i> Edit
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Projects")">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+</h2>
+<div class="pageContent">
+    <div id="ProjectDetailsPanel">
+        <div>
+            <h3>Info</h3>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <h3>
+                Organizers
+                
+                <a class="btn btn-primary text-white float-right" href="@Url.Action("AddOrganizer", "Projects", new { id = Model.ProjectId })">
+                    <i class="fas fa-user-plus"></i> Add organizer
+                </a>
+             
+            </h3>
+            <table class="table table-bordered table-sm table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Organizers.Count; i++)
+                    {
+                        <tr>
+                            <td class="w-100">
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <a href="@Url.Action("Details", "Accounts", new { id = Model.Organizers.ElementAt(i).UserName })">
+                                        @Html.DisplayFor(modelItem => Model.Organizers.ElementAt(i).UserName)
+                                    </a>
+                                }
+                                else
+                                {
+                                    <p>
+                                        @Html.DisplayFor(modelItem => Model.Organizers.ElementAt(i).UserName)
+                                    </p>
+
+                                }
+                            </td>
+                            <td>
+                                <a class="iconAction text-danger" href="@Url.Action("RemoveMember", "Projects", new { id = Model.ProjectId, memberIndex = i})"><i class="fas fa-times"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h3>
+                Members
+                <a class="btn btn-primary text-white float-right" href="@Url.Action("AddMember", "Projects", new { id = Model.ProjectId })">
+                    <i class="fas fa-user-plus"></i> Add member
+                </a>
+            </h3>
+            <table class="table table-bordered table-sm table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Members.Count; i++)
+                    {
+                        <tr>
+                            <td class="w-100">
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <a href="@Url.Action("Details", "Accounts", new { id = Model.Members.ElementAt(i).UserName })">
+                                        @Html.DisplayFor(modelItem => Model.Members.ElementAt(i).UserName)
+                                    </a>
+                                }
+                                else
+                                {
+                                    <p>
+                                        @Html.DisplayFor(modelItem => Model.Members.ElementAt(i).UserName)
+                                    </p>
+
+                                }
+                            </td>
+                            <td>
+                                <a class="iconAction text-danger" href="@Url.Action("RemoveMember", "Projects", new { id = Model.ProjectId, memberIndex = i})"><i class="fas fa-times"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

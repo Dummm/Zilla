@@ -1,7 +1,7 @@
-﻿@model Zilla.Models.Team
+﻿@model Zilla.Models.Project
 
 @{
-    ViewBag.Title = "Teams";
+    ViewBag.Title = "Projects";
     ViewBag.Message = Model.Title + " - Delete";
 }
 
@@ -11,13 +11,13 @@
 </h1>
 <h2 class="pageSubheading">
     <span>@ViewBag.Message</span>
-    <a class="btn btn-primary text-white float-right" href="@Url.Action("Details", "Teams", new { id = Model.TeamId })">
+    <a class="btn btn-primary text-white float-right" href="@Url.Action("Details", "Projects", new { id = Model.ProjectId })">
         <i class="fas fa-info"></i> Details
     </a>
-    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Edit", "Teams", new { id = Model.TeamId })">
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Edit", "Projects", new { id = Model.ProjectId })">
         <i class="fas fa-edit"></i> Edit
     </a>
-    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Teams")">
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Projects")">
         <i class="fas fa-arrow-left"></i> Back
     </a>
 </h2>
