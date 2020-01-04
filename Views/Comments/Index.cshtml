@@ -18,55 +18,57 @@
     </a>
 </h2>
 <div class="pageContent">
-    <table class="table table-bordered table-sm table-striped table-hover">
-        <thead>
-            <tr>
-                <th>
-                    Project
-                </th>
-                <th>
-                    Assignment
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Content)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Author)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreationDate)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm table-striped table-hover">
+            <thead>
                 <tr>
-                    <td class="w-20">
-                        <p>@Html.DisplayFor(modelItem => item.Assignment.Project.Title)</p>
-                    </td>
-                    <td class="w-20">
-                        <p>@Html.DisplayFor(modelItem => item.Assignment.Title)</p>
-                    </td>
-                    <td class="w-20">
-                        <a href="@Url.Action("Details", "Comments", new { id = item.CommentId})">
-                            @Html.DisplayFor(modelItem => item.Content)                    
-                        </a>
-                    </td>
-                    <td class="w-20">
-                        <p>@Html.DisplayFor(modelItem => item.Author.UserName)</p>
-                    </td>
-                    <td class="w-20">
-                        <p>@Html.DisplayFor(modelItem => item.CreationDate)</p>
-                    </td>
-                    <td>
-                        <a class="iconAction text-primary" href="@Url.Action("Edit", "Comments", new { id = item.CommentId })"><i class="fas fa-edit"></i></a>
-                        <a class="iconAction text-info" href="@Url.Action("Details", "Comments", new { id = item.CommentId })"><i class="fas fa-info"></i></a>
-                        <a class="iconAction text-danger" href="@Url.Action("Delete", "Comments", new { id = item.CommentId  })"><i class="fas fa-trash-alt"></i></a>
-                    </td>
+                    <th>
+                        Project
+                    </th>
+                    <th>
+                        Assignment
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Content)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Author)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreationDate)
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="w-20">
+                            <p>@Html.DisplayFor(modelItem => item.Assignment.Project.Title)</p>
+                        </td>
+                        <td class="w-20">
+                            <p>@Html.DisplayFor(modelItem => item.Assignment.Title)</p>
+                        </td>
+                        <td class="w-20">
+                            <a href="@Url.Action("Details", "Comments", new { id = item.CommentId})">
+                                @Html.DisplayFor(modelItem => item.Content)
+                            </a>
+                        </td>
+                        <td class="w-20">
+                            <p>@Html.DisplayFor(modelItem => item.Author.UserName)</p>
+                        </td>
+                        <td class="w-20">
+                            <p>@Html.DisplayFor(modelItem => item.CreationDate)</p>
+                        </td>
+                        <td>
+                            <a class="iconAction text-primary" href="@Url.Action("Edit", "Comments", new { id = item.CommentId })"><i class="fas fa-edit"></i></a>
+                            <a class="iconAction text-info" href="@Url.Action("Details", "Comments", new { id = item.CommentId })"><i class="fas fa-info"></i></a>
+                            <a class="iconAction text-danger" href="@Url.Action("Delete", "Comments", new { id = item.CommentId  })"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

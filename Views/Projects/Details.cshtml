@@ -6,7 +6,7 @@
 }
 
 <h1 class="pageHeading">
-    <i class="fas fa-users" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+    <i class="fas fa-city" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
     <span>@ViewBag.Title.</span>
 </h1>
 <h2 class="pageSubheading">
@@ -22,11 +22,14 @@
     </a>
 </h2>
 <div class="pageContent">
-    <div id="ProjectDetailsPanel">
+    <div id="projectDetailsPanel">
         <div>
-            <h3>Info</h3>
+            <h3>
+                <i class="fas fa-info" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+                Details
+            </h3>
             <dl class="dl-horizontal">
-                <dt>
+                <dt class="badge badge-primary">
                     @Html.DisplayNameFor(model => model.Title)
                 </dt>
 
@@ -34,7 +37,7 @@
                     @Html.DisplayFor(model => model.Title)
                 </dd>
 
-                <dt>
+                <dt class="badge badge-primary">
                     @Html.DisplayNameFor(model => model.Description)
                 </dt>
 
@@ -45,87 +48,355 @@
         </div>
         <div>
             <h3>
+                <i class="fas fa-user-shield" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
                 Organizers
-                
                 <a class="btn btn-primary text-white float-right" href="@Url.Action("AddOrganizer", "Projects", new { id = Model.ProjectId })">
                     <i class="fas fa-user-plus"></i> Add organizer
                 </a>
-             
-            </h3>
-            <table class="table table-bordered table-sm table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Organizers.Count; i++)
-                    {
-                        <tr>
-                            <td class="w-100">
-                                @if (User.IsInRole("Administrator"))
-                                {
-                                    <a href="@Url.Action("Details", "Accounts", new { id = Model.Organizers.ElementAt(i).UserName })">
-                                        @Html.DisplayFor(modelItem => Model.Organizers.ElementAt(i).UserName)
-                                    </a>
-                                }
-                                else
-                                {
-                                    <p>
-                                        @Html.DisplayFor(modelItem => Model.Organizers.ElementAt(i).UserName)
-                                    </p>
 
-                                }
-                            </td>
-                            <td>
-                                <a class="iconAction text-danger" href="@Url.Action("RemoveMember", "Projects", new { id = Model.ProjectId, memberIndex = i})"><i class="fas fa-times"></i></a>
-                            </td>
+            </h3>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Organizers.Count; i++)
+                        {
+                            <tr>
+                                <td class="w-100">
+                                    @if (User.IsInRole("Administrator"))
+                                    {
+                                        <a href="@Url.Action("Details", "Accounts", new { id = Model.Organizers.ElementAt(i).UserName })">
+                                            <div class="userAvatar">
+                                                <img src="data:image;base64,@(Model.Organizers.ElementAt(i).Avatar)" />
+                                            </div>
+                                            @Html.DisplayFor(modelItem => Model.Organizers.ElementAt(i).UserName)
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <p>
+                                            <div class="userAvatar">
+                                                <img src="data:image;base64,@(Model.Organizers.ElementAt(i).Avatar)" />
+                                            </div>
+                                            @Html.DisplayFor(modelItem => Model.Organizers.ElementAt(i).UserName)
+                                        </p>
+
+                                    }
+                                </td>
+                                <td>
+                                    <a class="iconAction text-danger" href="@Url.Action("RemoveMember", "Projects", new { id = Model.ProjectId, memberIndex = i})"><i class="fas fa-times"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div>
             <h3>
+                <i class="fas fa-users" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
                 Members
                 <a class="btn btn-primary text-white float-right" href="@Url.Action("AddMember", "Projects", new { id = Model.ProjectId })">
                     <i class="fas fa-user-plus"></i> Add member
                 </a>
             </h3>
-            <table class="table table-bordered table-sm table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Members.Count; i++)
-                    {
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm table-striped table-hover">
+                    <thead>
                         <tr>
-                            <td class="w-100">
-                                @if (User.IsInRole("Administrator"))
-                                {
-                                    <a href="@Url.Action("Details", "Accounts", new { id = Model.Members.ElementAt(i).UserName })">
-                                        @Html.DisplayFor(modelItem => Model.Members.ElementAt(i).UserName)
-                                    </a>
-                                }
-                                else
-                                {
-                                    <p>
-                                        @Html.DisplayFor(modelItem => Model.Members.ElementAt(i).UserName)
-                                    </p>
-
-                                }
-                            </td>
-                            <td>
-                                <a class="iconAction text-danger" href="@Url.Action("RemoveMember", "Projects", new { id = Model.ProjectId, memberIndex = i})"><i class="fas fa-times"></i></a>
-                            </td>
+                            <th>Username</th>
+                            <th></th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Members.Count; i++)
+                        {
+                            <tr>
+                                <td class="w-100">
+                                    @if (User.IsInRole("Administrator"))
+                                    {
+                                        <a href="@Url.Action("Details", "Accounts", new { id = Model.Members.ElementAt(i).UserName })">
+                                            <div class="userAvatar">
+                                                <img src="data:image;base64,@Html.DisplayFor(modelItem => Model.Members.ElementAt(i).Avatar)" />
+                                            </div>
+                                            @Html.DisplayFor(modelItem => Model.Members.ElementAt(i).UserName)
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <p>
+                                            <div class="userAvatar">
+                                                <img src="data:image;base64,@Html.DisplayFor(modelItem => Model.Members.ElementAt(i).Avatar)" />
+                                            </div>
+                                            @Html.DisplayFor(modelItem => Model.Members.ElementAt(i).UserName)
+                                        </p>
+
+                                    }
+                                </td>
+                                <td>
+                                    <a class="iconAction text-danger" href="@Url.Action("RemoveMember", "Projects", new { id = Model.ProjectId, memberIndex = i})"><i class="fas fa-times"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br />
+    <hr />
+    <br />
+    <div id="projectAssignments">
+        <h3>
+            <i class="fas fa-building" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+            Assignments
+            <a class="btn btn-primary text-white float-right" href="@Url.Action("AddAssignment", "Projects", new { id = Model.ProjectId })">
+                <i class="fas fa-user-plus"></i> Add Assignment
+            </a>
+        </h3>
+        <br />
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="notStarted-tab" data-toggle="tab" href="#notStarted" role="tab" aria-controls="notStarted" aria-selected="true">Not Started</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="inProgress-tab" data-toggle="tab" href="#inProgress" role="tab" aria-controls="inProgress" aria-selected="false">In Progress</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="completed-tab" data-toggle="tab" href="#completed" role="tab" aria-controls="completed" aria-selected="false">Completed</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="notStarted" role="tabpanel" aria-labelledby="notStarted-tab">
+                @if (Model.Assignments.Where(a => a.Status == Zilla.Models.Status.Not_Started).Count() == 0)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-text">
+                                <p>Nu-i nimic aici, bossulica.</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    foreach (var item in Model.Assignments.Where(a => a.Status == Zilla.Models.Status.Not_Started))
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-text assignnmentBody">
+                                    <div>
+                                        <div>
+                                            <span class="badge badge-primary">Title</span>
+                                            <p>@Html.DisplayFor(modelItem => item.Title)</p>
+                                        </div>
+                                        <div>
+                                            <span class="badge badge-primary">Description</span>
+                                            <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <span class="badge badge-secondary">Assigner</span>
+                                            <p>
+                                                <div class="userAvatar">
+                                                    <img src="data:image;base64,@Html.DisplayFor(modelItem => item.Assigner.Avatar)" />
+                                                </div>
+                                                @Html.DisplayFor(modelItem => item.Assigner.UserName)
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <span class="badge badge-secondary">Asignee</span>
+                                            <p>
+                                                <div class="userAvatar">
+                                                    <img src="data:image;base64,@Html.DisplayFor(modelItem => item.Assignee.Avatar)" />
+                                                </div>
+                                                @Html.DisplayFor(modelItem => item.Assignee.UserName)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <span class="badge badge-info">Start Date</span>
+                                            <p>
+                                                @Html.DisplayFor(modelItem => item.StartDate)
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <span class="badge badge-info">End Date</span>
+                                            <p>
+                                                @Html.DisplayFor(modelItem => item.EndDate)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    <a class="iconAction text-primary" href="@Url.Action("Edit", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-edit"></i></a>
+                                    <a class="iconAction text-info" href="@Url.Action("Details", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-info"></i></a>
+                                    <a class="iconAction text-danger" href="@Url.Action("Delete", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-trash-alt"></i></a>
+                                </div>
+                            </div>
+                        </div>
                     }
-                </tbody>
-            </table>
+                }
+            </div>
+            <div class="tab-pane fade" id="inProgress" role="tabpanel" aria-labelledby="inProgress-tab">
+                @if (Model.Assignments.Where(a => a.Status == Zilla.Models.Status.In_Progress).Count() == 0)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-text">
+                                <p>Nu-i nimic aici, bossulica.</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    foreach (var item in Model.Assignments.Where(a => a.Status == Zilla.Models.Status.In_Progress))
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-text assignnmentBody">
+                                    <div>
+                                        <div>
+                                            <span class="badge badge-primary">Title</span>
+                                            <p>@Html.DisplayFor(modelItem => item.Title)</p>
+                                        </div>
+                                        <div>
+                                            <span class="badge badge-primary">Description</span>
+                                            <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <span class="badge badge-secondary">Assigner</span>
+                                            <p>
+                                                <div class="userAvatar">
+                                                    <img src="data:image;base64,@Html.DisplayFor(modelItem => item.Assigner.Avatar)" />
+                                                </div>
+                                                @Html.DisplayFor(modelItem => item.Assigner.UserName)
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <span class="badge badge-secondary">Asignee</span>
+                                            <p>
+                                                <div class="userAvatar">
+                                                    <img src="data:image;base64,@Html.DisplayFor(modelItem => item.Assignee.Avatar)" />
+                                                </div>
+                                                @Html.DisplayFor(modelItem => item.Assignee.UserName)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <span class="badge badge-info">Start Date</span>
+                                            <p>
+                                                @Html.DisplayFor(modelItem => item.StartDate)
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <span class="badge badge-info">End Date</span>
+                                            <p>
+                                                @Html.DisplayFor(modelItem => item.EndDate)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    <a class="iconAction text-primary" href="@Url.Action("Edit", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-edit"></i></a>
+                                    <a class="iconAction text-info" href="@Url.Action("Details", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-info"></i></a>
+                                    <a class="iconAction text-danger" href="@Url.Action("Delete", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-trash-alt"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+                @if (Model.Assignments.Where(a => a.Status == Zilla.Models.Status.Completed).Count() == 0)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-text">
+                                <p>Nu-i nimic aici, bossulica.</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    foreach (var item in Model.Assignments.Where(a => a.Status == Zilla.Models.Status.Completed))
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-text assignnmentBody">
+                                    <div>
+                                        <div>
+                                            <span class="badge badge-primary">Title</span>
+                                            <p>@Html.DisplayFor(modelItem => item.Title)</p>
+                                        </div>
+                                        <div>
+                                            <span class="badge badge-primary">Description</span>
+                                            <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <span class="badge badge-secondary">Assigner</span>
+                                            <p>
+                                                <div class="userAvatar">
+                                                    <img src="data:image;base64,@Html.DisplayFor(modelItem => item.Assigner.Avatar)" />
+                                                </div>
+                                                @Html.DisplayFor(modelItem => item.Assigner.UserName)
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <span class="badge badge-secondary">Asignee</span>
+                                            <p>
+                                                <div class="userAvatar">
+                                                    <img src="data:image;base64,@Html.DisplayFor(modelItem => item.Assignee.Avatar)" />
+                                                </div>
+                                                @Html.DisplayFor(modelItem => item.Assignee.UserName)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <span class="badge badge-info">Start Date</span>
+                                            <p>
+                                                @Html.DisplayFor(modelItem => item.StartDate)
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <span class="badge badge-info">End Date</span>
+                                            <p>
+                                                @Html.DisplayFor(modelItem => item.EndDate)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    <a class="iconAction text-primary" href="@Url.Action("Edit", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-edit"></i></a>
+                                    <a class="iconAction text-info" href="@Url.Action("Details", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-info"></i></a>
+                                    <a class="iconAction text-danger" href="@Url.Action("Delete", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-trash-alt"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
         </div>
     </div>
 </div>

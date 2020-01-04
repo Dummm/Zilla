@@ -5,7 +5,7 @@
     ViewBag.Message = "All Projects";
 }
 <h1 class="pageHeading">
-    <i class="fas fa-users" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+    <i class="fas fa-city" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
     <span>@ViewBag.Title.</span>
 </h1>
 <h2 class="pageSubheading">
@@ -18,37 +18,39 @@
     </a>
 </h2>
 <div class="pageContent">
-    <table class="table table-bordered table-sm table-striped table-hover">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td class="w-50">
-                    <a href="@Url.Action("Details", "Projects", new { id = item.ProjectId })">
-                        @Html.DisplayFor(modelItem => item.Title)                    
-                    </a>
-                </td>
-                <td class="w-50">
-                    <p>@Html.DisplayFor(modelItem => item.Description)</p>
-                </td>
-                <td>
-                    <a class="iconAction text-primary" href="@Url.Action("Edit", "Projects", new { id = item.ProjectId })"><i class="fas fa-edit"></i></a>
-                    <a class="iconAction text-info" href="@Url.Action("Details", "Projects", new { id = item.ProjectId })"><i class="fas fa-info"></i></a>
-                    <a class="iconAction text-danger" href="@Url.Action("Delete", "Projects", new { id = item.ProjectId })"><i class="fas fa-trash-alt"></i></a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="w-50">
+                            <a href="@Url.Action("Details", "Projects", new { id = item.ProjectId })">
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </a>
+                        </td>
+                        <td class="w-50">
+                            <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                        </td>
+                        <td>
+                            <a class="iconAction text-primary" href="@Url.Action("Edit", "Projects", new { id = item.ProjectId })"><i class="fas fa-edit"></i></a>
+                            <a class="iconAction text-info" href="@Url.Action("Details", "Projects", new { id = item.ProjectId })"><i class="fas fa-info"></i></a>
+                            <a class="iconAction text-danger" href="@Url.Action("Delete", "Projects", new { id = item.ProjectId })"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

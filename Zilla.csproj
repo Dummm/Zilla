@@ -188,6 +188,14 @@
     <Compile Include="Migrations\202001031905039_M1.Designer.cs">
       <DependentUpon>202001031905039_M1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001042114472_M2.cs" />
+    <Compile Include="Migrations\202001042114472_M2.Designer.cs">
+      <DependentUpon>202001042114472_M2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001042338253_M3.cs" />
+    <Compile Include="Migrations\202001042338253_M3.Designer.cs">
+      <DependentUpon>202001042338253_M3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -680,6 +688,7 @@
     <Content Include="Views\Comments\Edit.cshtml" />
     <Content Include="Views\Comments\Index.cshtml" />
     <Content Include="Views\Assignments\AddComment.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -698,6 +707,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202001031905039_M1.resx">
       <DependentUpon>202001031905039_M1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001042114472_M2.resx">
+      <DependentUpon>202001042114472_M2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001042338253_M3.resx">
+      <DependentUpon>202001042338253_M3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

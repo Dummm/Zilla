@@ -1,0 +1,112 @@
+﻿@model Zilla.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+<h1 class="pageHeading">
+    <i class="fas fa-desktop" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+    <span>@ViewBag.Title.</span>
+</h1>
+<h2 class="pageSubheading">
+    <span>@ViewBag.Message</span>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Home")">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+</h2>
+<div class="pageContent">
+    <div id="dashboard">
+        <div id="userProjects">
+            <h3>
+                <i class="fas fa-city" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+                My Projects
+            </h3>
+            <div>
+                <div class="list-group">
+                    @foreach (var project in Model.MemberInProjects.Union(Model.OrganizerInProjects))
+                    {
+                        <a href="@Url.Action("Details", "Projects", new { id = project.ProjectId})"
+                           class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    @Html.DisplayFor(modelItem => project.Title)
+                                </h5>
+                            </div>
+                            <p class="mb-1">
+                                @Html.DisplayFor(modelItem => project.Description)
+                            </p>
+                            @if (project.Members.Contains(Model))
+                            {
+                                <small class="badge badge-info">Member</small>
+                            }
+                            @if (project.Organizers.Contains(Model))
+                            {
+                                <small class="badge badge-danger">Organizer</small>
+                            }
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+        <div id="userAssignments">
+            <h3>
+                <i class="fas fa-building" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+                My Assignments
+            </h3>
+            <div>
+                <div class="list-group">
+                    @foreach (var project in Model.MemberInProjects.Union(Model.OrganizerInProjects))
+                    {
+                        foreach (var assignment in project.Assignments.Where(a => a.Assignee == Model))
+                        {
+                            <a href="@Url.Action("Details", "Assignments", new { id = assignment.AssignmentId })"
+                               class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">
+                                        @Html.DisplayFor(modelItem => project.Title) | @Html.DisplayFor(modelItem => assignment.Title)
+                                    </h5>
+                                </div>
+                                <small>
+                                    @Html.DisplayFor(modelItem => assignment.StartDate) - @Html.DisplayFor(modelItem => assignment.EndDate)
+                                </small>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div id="userComments">
+            <h3>
+                <i class="fas fa-comments" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+                My Comments
+            </h3>
+            <div>
+                <div class="list-group">
+                    @foreach (var project in Model.MemberInProjects.Union(Model.OrganizerInProjects))
+                    {
+                        foreach (var assignment in project.Assignments)
+                        {
+                            foreach (var comment in assignment.Comments)
+                            {
+                                <a href="@Url.Action("Details", "Comments", new { id = comment.CommentId})"
+                                    class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">
+                                            @Html.DisplayFor(modelItem => project.Title) | @Html.DisplayFor(modelItem => assignment.Title)
+                                        </h5>
+                                    </div>
+                                    <p class="mb-1">
+                                            @Html.DisplayFor(modelItem => comment.Content)
+                                    </p>
+                                    <small>
+                                        @Html.DisplayFor(modelItem => comment.CreationDate)
+                                    </small>
+                                </a>
+                            }
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

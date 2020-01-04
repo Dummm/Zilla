@@ -28,34 +28,21 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav flex-fill">
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    @*@Html.ActionLink("About", "About", "Home", null, htmlAttributes: new { @class = "nav-link" })*@
-                    <a class="nav-link" href="@Url.Action("About", "Home")">About</a>
-
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("Contact", "Contact", "Home", null, htmlAttributes: new { @class = "nav-link" })
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("Projects", "Index", "Projects", null, htmlAttributes: new { @class = "nav-link" })
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("Assignments", "Index", "Assignments", null, htmlAttributes: new { @class = "nav-link" })
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("Comments", "Index", "Comments", null, htmlAttributes: new { @class = "nav-link" })
-                </li>
+                <li class="nav-item @((ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index")     ? "active" : "")"><a class="nav-link" href="@Url.Action("Index", "Home")">Home</a></li>
+                <li class="nav-item @((ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Dashboard") ? "active" : "")"><a class="nav-link" href="@Url.Action("Dashboard", "Home")">Dashboard</a></li>
+                <li class="nav-item @((ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "About")     ? "active" : "")"><a class="nav-link" href="@Url.Action("About", "Home")">About</a></li>
+                <li class="nav-item @((ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Contact")   ? "active" : "")"><a class="nav-link" href="@Url.Action("Contact", "Home")">Contact</a></li>
                 @if (this.User.IsInRole("Administrator"))
                 {
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active" : "")">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Admin
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             @Html.ActionLink("Accounts", "Index", "Accounts", null, htmlAttributes: new { @class = "dropdown-item" })
+                            @Html.ActionLink("Projects", "Index", "Projects", null, htmlAttributes: new { @class = "dropdown-item" })
+                            @Html.ActionLink("Assignments", "Index", "Assignments", null, htmlAttributes: new { @class = "dropdown-item" })
+                            @Html.ActionLink("Comments", "Index", "Comments", null, htmlAttributes: new { @class = "dropdown-item" })
                         </div>
                     </li>
                 }

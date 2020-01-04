@@ -15,7 +15,8 @@ namespace Zilla.Models
     {
         public ApplicationUser()
         {
-            Projects = new HashSet<Project>();
+            MemberInProjects = new HashSet<Project>();
+            OrganizerInProjects = new HashSet<Project>();
         }
 
         /*[Required(ErrorMessage = "Please provide a display name.")]*/
@@ -24,7 +25,10 @@ namespace Zilla.Models
         public SqlDateTime RegistrationDate { get; set; }
 
         //[ForeignKey("ProjectId")]
-        public virtual ICollection<Project> Projects { get; set; }
+        [InverseProperty("Members")]
+        public virtual ICollection<Project> MemberInProjects { get; set; }
+        [InverseProperty("Organizers")]
+        public virtual ICollection<Project> OrganizerInProjects { get; set; }
         public string Avatar { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -60,26 +64,31 @@ namespace Zilla.Models
                 .WithRequired(f => f.Project);
              */
 
+            modelBuilder.Entity<Assignment>()
+                .HasMany(a => a.Comments)
+                .WithRequired(c => c.Assignment)
+                .WillCascadeOnDelete(true);
+
             /// Many to many
             /*
             */
             modelBuilder.Entity<Project>()
                 .HasMany(d => d.Members)
-                .WithMany(f => f.Projects)
+                .WithMany(f => f.MemberInProjects)
                 .Map(w => w
                     .ToTable("ProjectsMembers")
                     .MapLeftKey("ProjectId")
                     .MapRightKey("Id"));
 
             /*
+                    */
             modelBuilder.Entity<Project>()
                 .HasMany(d => d.Organizers)
-                .WithMany(f => f.Projects)
+                .WithMany(f => f.OrganizerInProjects)
                 .Map(w => w
                     .ToTable("ProjectsOrganizers")
                     .MapLeftKey("ProjectsId")
                     .MapRightKey("ApplicationUserId"));
-                    */
         }
 
         public DbSet<Assignment> Assignments { get; set; }

@@ -1,74 +1,153 @@
 ﻿@model Zilla.Models.Assignment
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Assignments";
+    ViewBag.Message = Model.Title;
 }
 
-<h2>Details</h2>
+<h1 class="pageHeading">
+    <i class="fas fa-building" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+    <span>@ViewBag.Title.</span>
+</h1>
+<h2 class="pageSubheading">
+    <span>@ViewBag.Message</span>
+    <a class="btn btn-primary text-white float-right" href="@Url.Action("Create", "Assignments")">
+        <i class="fas fa-plus"></i> Create Project
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Home")">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+</h2>
+<div class="pageContent">
+    <h3>
+        <i class="fas fa-info" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+        Details
+    </h3>
+    <div id="assignmentsDetailsPanel">
+        <div>
+            <dl class="dl-horizontal">
+                <dt class="badge badge-primary">
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
 
-<div>
-    <h4>Assignment</h4>
+                <dd>
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+
+                <dt class="badge badge-primary">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <dl class="dl-horizontal">
+                <dt class="badge badge-secondary">
+                    @Html.DisplayNameFor(model => model.Assigner)
+                </dt>
+
+                <dd>
+                    <div class="userAvatar">
+                        <img src="data:image;base64,@Html.DisplayFor(model => model.Assigner.Avatar)" />
+                    </div>
+                    @Html.DisplayFor(model => model.Assigner.UserName)
+                </dd>
+
+                <dt class="badge badge-secondary">
+                    @Html.DisplayNameFor(model => model.Assignee)
+                </dt>
+
+                <dd>
+                    <div class="userAvatar">
+                        <img src="data:image;base64,@Html.DisplayFor(model => model.Assignee.Avatar)" />
+                    </div>
+                    @Html.DisplayFor(model => model.Assignee.UserName)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <dl class="dl-horizontal">
+                <dt class="badge badge-info">
+                    Start Date
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.StartDate)
+                </dd>
+
+                <dt class="badge badge-info">
+                    End Date
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.EndDate)
+                </dd>
+
+            </dl>
+        </div>
+        <div>
+            <dl class="dl-horizontal">
+                <dt class="badge badge-success">
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+
+                <dd>
+                    @(Model.Status.ToString().Replace("_", " "))
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <br />
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Assigner)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Assigner.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Assignee)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Assignee.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-
-    </dl>
+    <br />
+    <div id="assignmentComments">
+        <h3>
+            <i class="fas fa-comments" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+            Comments
+            <a class="btn btn-primary text-white float-right" href="@Url.Action("AddComment", "Assignments", new { id = Model.AssignmentId })">
+                <i class="fas fa-user-plus"></i> Add Comment
+            </a>
+        </h3>
+        <br />
+        <div>
+            @if (Model.Comments.Count() == 0)
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-text">
+                            <p>Nu-i nimic aici, bossulica.</p>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                foreach (var item in Model.Comments)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-text assignnmentBody">
+                                <div>
+                                    <p>@Html.DisplayFor(modelItem => item.Content)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted small">
+                            <span>
+                                <div class="userAvatar">
+                                    <img src="data:image;base64,@Html.DisplayFor(model => model.Assigner.Avatar)" />
+                                </div>@Html.DisplayFor(modelItem => item.Author.UserName)
+                            </span>
+                            <span class="float-right">
+                                @Html.DisplayFor(modelItem => item.CreationDate)
+                            </span>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.AssignmentId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

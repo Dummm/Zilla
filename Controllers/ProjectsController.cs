@@ -432,7 +432,14 @@ namespace Zilla.Controllers
 
                 await db.SaveChangesAsync();
 
-                return RedirectToAction("Index");
+            TempData["Toast"] = new Toast
+            {
+                Title = "Project",
+                Body = "Assignment successfully added!",
+                Type = ToastType.Success
+            };
+            return RedirectToAction("Details", new { id = p.ProjectId });
+
             //}
 
             //return View(vm);

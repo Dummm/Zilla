@@ -5,7 +5,7 @@
     ViewBag.Message = "All Assignments";
 }
 <h1 class="pageHeading">
-    <i class="fas fa-clipboard-list" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+    <i class="fas fa-building" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
     <span>@ViewBag.Title.</span>
 </h1>
 <h2 class="pageSubheading">
@@ -18,56 +18,58 @@
     </a>
 </h2>
 <div class="pageContent">
-    <table class="table table-bordered table-sm table-striped table-hover">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Status)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.StartDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EndDate)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm table-striped table-hover">
+            <thead>
                 <tr>
-                    <td class="w-20">
-                        <a href="@Url.Action("Details", "Assignments", new { id = item.AssignmentId })">
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </a>
-                    </td>
-                    <td class="w-20">
-                        <p>@Html.DisplayFor(modelItem => item.Description)</p>
-                    </td>
-                    <td class="w-20">
-                        <p>@Html.DisplayFor(modelItem => item.Status)</p>
-                    </td>
-                    <td class="w-20">
-                        <p>@Html.DisplayFor(modelItem => item.StartDate)</p>
-                    </td>
-                    <td class="w-20">
-                        <p>@Html.DisplayFor(modelItem => item.EndDate)</p>
-                    </td>
-                    <td>
-                        <a class="iconAction text-primary" href="@Url.Action("Edit", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-edit"></i></a>
-                        <a class="iconAction text-info" href="@Url.Action("Details", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-info"></i></a>
-                        <a class="iconAction text-danger" href="@Url.Action("Delete", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-trash-alt"></i></a>
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StartDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EndDate)
+                    </th>
+                    <th></th>
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="w-20">
+                            <a href="@Url.Action("Details", "Assignments", new { id = item.AssignmentId })">
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </a>
+                        </td>
+                        <td class="w-20">
+                            <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                        </td>
+                        <td class="w-20">
+                            <p>@Html.DisplayFor(modelItem => item.Status)</p>
+                        </td>
+                        <td class="w-20">
+                            <p>@Html.DisplayFor(modelItem => item.StartDate)</p>
+                        </td>
+                        <td class="w-20">
+                            <p>@Html.DisplayFor(modelItem => item.EndDate)</p>
+                        </td>
+                        <td>
+                            <a class="iconAction text-primary" href="@Url.Action("Edit", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-edit"></i></a>
+                            <a class="iconAction text-info" href="@Url.Action("Details", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-info"></i></a>
+                            <a class="iconAction text-danger" href="@Url.Action("Delete", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                }
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>

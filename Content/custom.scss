@@ -8,9 +8,9 @@
 @import "bootstrap/variables";
 @import "bootstrap/mixins";
 
-$enable-rounded: false;
-//$enable-rounded: true;
-$border-radius: .1rem;
+//$enable-rounded: false;
+$enable-rounded: true;
+//$border-radius: 1rem;
 $border-radius-lg: .15rem;
 $border-radius-sm: .05rem;
 
@@ -77,7 +77,7 @@ $navbar-dark-color: rgba($white, .6);
     }
 
     .btn:hover {
-        transform: scale(1.01);
+        transform: scale(1.025);
     }
 
     .navbar * {
@@ -86,10 +86,33 @@ $navbar-dark-color: rgba($white, .6);
 
 
     h1, h2, h3, h4, h5, h6 {
+        font-weight: bold !important;
+
         span {
             font-family: 'PT Mono' !important;
         }
     }
+
+    dt {
+        font-size: initial;
+    }
+
+    .userAvatar {
+        width: 2rem;
+        height: 2rem;
+        object-fit: contain;
+        display: inline-block;
+        margin-right: 0.5rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+        background-color: rgba(255, 255, 255, 0.75);
+
+        img {
+            height: 100%;
+            width: auto;
+        }
+    }
+
 
     .pageHeading {
         font-size: 5rem;
@@ -109,15 +132,63 @@ $navbar-dark-color: rgba($white, .6);
         background: linear-gradient(90deg, $accent-darker, #FFFFFF 80%);
         color: white;
         margin-bottom: 2rem;
+
         span {
             letter-spacing: 1rem;
         }
     }
 
     .pageContent {
+        #dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            grid-gap: 2rem;
+        }
+
         #teamDetailsPanel {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, auto);
+        }
+
+        #projectDetailsPanel {
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            grid-gap: 0 2rem;
+
+            .table-responsive {
+                max-height: 25vh;
+            }
+        }
+
+        #assignmentsDetailsPanel {
+            display: grid;
+            grid-template-columns: repeat(4, auto);
+            grid-gap: 0 2rem;
+        }
+
+        #assignmentComments {
+            max-height: 75vh;
+            overflow: auto;
+
+            .card {
+                margin: 1rem .5rem;
+            }
+        }
+
+        #projectAssignments {
+            .tab-content {
+                max-height: 75vh;
+                overflow: auto;
+
+                .card {
+                    margin: 1rem .5rem;
+                }
+            }
+
+            .assignnmentBody {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr auto;
+            }
         }
 
         table {
@@ -151,7 +222,7 @@ $navbar-dark-color: rgba($white, .6);
 html,
 body,
 .body-content {
-    height: 100%;
+    min-height: 100%;
 }
 
 
