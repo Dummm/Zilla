@@ -1,6 +1,6 @@
-﻿.AssignmentIdmodel Zilla.Models.Assignment
+﻿@model Zilla.Models.Assignment
 
-.AssignmentId{
+@{
     ViewBag.Title = "Details";
 }
 
@@ -11,48 +11,64 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            .AssignmentIdHtml.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Title)
         </dt>
 
         <dd>
-            .AssignmentIdHtml.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Title)
         </dd>
 
         <dt>
-            .AssignmentIdHtml.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
-            .AssignmentIdHtml.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Description)
         </dd>
 
         <dt>
-            .AssignmentIdHtml.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.Status)
         </dt>
 
         <dd>
-            .AssignmentIdHtml.DisplayFor(model => model.Status)
+            @Html.DisplayFor(model => model.Status)
         </dd>
 
         <dt>
-            .AssignmentIdHtml.DisplayNameFor(model => model.StartDate)
+            @Html.DisplayNameFor(model => model.Assigner)
         </dt>
 
         <dd>
-            .AssignmentIdHtml.DisplayFor(model => model.StartDate)
+            @Html.DisplayFor(model => model.Assigner.UserName)
         </dd>
 
         <dt>
-            .AssignmentIdHtml.DisplayNameFor(model => model.EndDate)
+            @Html.DisplayNameFor(model => model.Assignee)
         </dt>
 
         <dd>
-            .AssignmentIdHtml.DisplayFor(model => model.EndDate)
+            @Html.DisplayFor(model => model.Assignee.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
         </dd>
 
     </dl>
 </div>
 <p>
-    .AssignmentIdHtml.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    .AssignmentIdHtml.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AssignmentId }) |
+    @Html.ActionLink("Back to List", "Index")
 </p>

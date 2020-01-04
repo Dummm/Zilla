@@ -71,7 +71,6 @@ namespace Zilla.Models
                     .MapLeftKey("ProjectId")
                     .MapRightKey("Id"));
 
-            // De ce nu merge? da
             /*
             modelBuilder.Entity<Project>()
                 .HasMany(d => d.Organizers)

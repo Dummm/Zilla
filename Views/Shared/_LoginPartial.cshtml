@@ -18,7 +18,7 @@
                     }
                     <span class="sr-only">(current)</span>
                 </span>
-                <img id="currentUserAvatar" src="data:image/png;base64,@(User.Identity.GetAvatar())" />
+                <img id="currentUserAvatar" src="data:image;base64,@(User.Identity.GetAvatar())" />
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 @Html.ActionLink("Manage Account", "Index", "Manage", null, htmlAttributes: new { @class = "dropdown-item" })

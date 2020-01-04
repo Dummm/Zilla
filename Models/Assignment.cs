@@ -59,4 +59,14 @@ namespace Zilla.Models
         [Display(Name = "Projects")]
         public IEnumerable<SelectListItem> Projects { get; set; }
     }
+
+    public class AddCommentViewModel
+    {
+        [Display(Name = "Assignment")]
+        public Assignment Assignment { get; set; }
+
+        [Display(Name = "Comment")]
+        public Comment Comment { get; set; }
+        
+    }
 }

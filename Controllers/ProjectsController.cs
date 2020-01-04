@@ -423,7 +423,7 @@ namespace Zilla.Controllers
             //if (ModelState.IsValid)
             //{
             Assignment a = vm.Assignment;
-                a.Assigner = db.Users.Find(User.Identity.GetUserId());
+                a.Assigner = db.Users.Find(HttpContext.User.Identity.GetUserId());
                 a.Assignee = db.Users.Find(UserManager.FindByName(vm.Asignee).Id);
                 db.Assignments.Add(a);
 
@@ -435,7 +435,7 @@ namespace Zilla.Controllers
                 return RedirectToAction("Index");
             //}
 
-            return View(vm);
+            //return View(vm);
         }
 
 

@@ -1,57 +1,73 @@
 ﻿@model IEnumerable<Zilla.Models.Assignment>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Assignments";
+    ViewBag.Message = "All Assignments";
 }
+<h1 class="pageHeading">
+    <i class="fas fa-clipboard-list" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+    <span>@ViewBag.Title.</span>
+</h1>
+<h2 class="pageSubheading">
+    <span>@ViewBag.Message</span>
+    <a class="btn btn-primary text-white float-right" href="@Url.Action("Create", "Assignments")">
+        <i class="fas fa-plus"></i> Create Project
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Home")">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+</h2>
+<div class="pageContent">
+    <table class="table table-bordered table-sm table-striped table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="w-20">
+                        <a href="@Url.Action("Details", "Assignments", new { id = item.AssignmentId })">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </a>
+                    </td>
+                    <td class="w-20">
+                        <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                    </td>
+                    <td class="w-20">
+                        <p>@Html.DisplayFor(modelItem => item.Status)</p>
+                    </td>
+                    <td class="w-20">
+                        <p>@Html.DisplayFor(modelItem => item.StartDate)</p>
+                    </td>
+                    <td class="w-20">
+                        <p>@Html.DisplayFor(modelItem => item.EndDate)</p>
+                    </td>
+                    <td>
+                        <a class="iconAction text-primary" href="@Url.Action("Edit", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-edit"></i></a>
+                        <a class="iconAction text-info" href="@Url.Action("Details", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-info"></i></a>
+                        <a class="iconAction text-danger" href="@Url.Action("Delete", "Assignments", new { id = item.AssignmentId })"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AssignmentId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AssignmentId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AssignmentId })
-        </td>
-    </tr>
-}
-
-</table>
+        </tbody>
+    </table>
+</div>

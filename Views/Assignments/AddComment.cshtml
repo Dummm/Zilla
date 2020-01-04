@@ -1,0 +1,48 @@
+﻿@model Zilla.Models.AddCommentViewModel
+
+@{
+    ViewBag.Title = "Assignment";
+    ViewBag.Message = Model.Assignment.Title + " - Add comment";
+}
+
+<h1 class="pageHeading">
+    <i class="fas fa-users" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+    <span>@ViewBag.Title.</span>
+</h1>
+<h2 class="pageSubheading">
+    <span>@ViewBag.Message</span>
+    <a class="btn btn-danger text-white float-right" href="@Url.Action("Delete", "Assignments", new { id = Model.Assignment.AssignmentId })">
+        <i class="fas fa-trash-alt"></i> Delete
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Details", "Assignments", new { id = Model.Assignment.AssignmentId })">
+        <i class="fas fa-info"></i> Details
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Edit", "Assignments", new { id = Model.Assignment.AssignmentId })">
+        <i class="fas fa-edit"></i> Edit
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Assignments")">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+</h2>
+<div class="pageContent">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comment.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Comment.Content, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Comment.Content, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    }
+</div>

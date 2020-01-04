@@ -146,5 +146,52 @@ namespace Zilla.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+
+        public async Task<ActionResult> AddComment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Assignment assignment = await db.Assignments.FindAsync(id);
+            if (assignment == null)
+            {
+                return HttpNotFound();
+            }
+            //return View();
+
+            return View(
+                new AddCommentViewModel
+                {
+                    Assignment = assignment
+                }
+            );
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddComment(int? id, AddCommentViewModel vm)
+        {
+            //if (ModelState.IsValid)
+            //{
+            Comment c = vm.Comment;
+            c.Author = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            c.CreationDate = DateTime.Now;
+            db.Comments.Add(c);
+
+            Assignment a = db.Assignments.Find(id);
+            a.Comments.Add(c);
+
+            await db.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+            //}
+
+            //return View(vm);
+        }
+
     }
 }
