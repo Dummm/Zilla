@@ -154,6 +154,15 @@
                             </span>
                             <span class="float-right">
                                 @Html.DisplayFor(modelItem => item.CreationDate)
+                                <br />
+                                @if (User.Identity.Name == item.Author.UserName || User.IsInRole("Administrator"))
+                                {
+                                    <div class="float-right">
+                                        <a class="iconAction text-primary" href="@Url.Action("Edit", "Comments", new { id = item.CommentId })"><i class="fas fa-edit"></i></a>
+                                        <a class="iconAction text-info" href="@Url.Action("Details", "Comments", new { id = item.CommentId })"><i class="fas fa-info"></i></a>
+                                        <a class="iconAction text-danger" href="@Url.Action("Delete", "Comments", new { id = item.CommentId })"><i class="fas fa-trash-alt"></i></a>
+                                    </div>
+                                }
                             </span>
                         </div>
                     </div>

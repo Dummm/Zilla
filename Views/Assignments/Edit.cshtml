@@ -1,8 +1,8 @@
-﻿@model Zilla.Models.Assignment
+﻿@model Zilla.Models.EditAssignmentViewModel
 
 @{
     ViewBag.Title = "Assignments";
-    ViewBag.Message = Model.Title + " - Edit";
+    ViewBag.Message = Model.Assignment.Title + " - Edit";
 }
 
 <h1 class="pageHeading">
@@ -11,13 +11,13 @@
 </h1>
 <h2 class="pageSubheading">
     <span>@ViewBag.Message</span>
-    <a class="btn btn-danger text-white float-right" href="@Url.Action("Delete", "Assignments", new { id = Model.AssignmentId })">
+    <a class="btn btn-danger text-white float-right" href="@Url.Action("Delete", "Assignments", new { id = Model.Assignment.AssignmentId })">
         <i class="fas fa-trash-alt"></i> Delete
     </a>
-    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Details", "Assignments", new { id = Model.AssignmentId })">
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Details", "Assignments", new { id = Model.Assignment.AssignmentId })">
         <i class="fas fa-info"></i> Details
     </a>
-    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Details", "Projects", new { id = Model.Project.ProjectId })">
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Details", "Projects", new { id = Model.Assignment.Project.ProjectId })">
         <i class="fas fa-arrow-left"></i> Back
     </a>
 </h2>
@@ -30,40 +30,86 @@
 
                 <div class="form-horizontal">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.AssignmentId)
+                    @Html.HiddenFor(model => model.Assignment.AssignmentId)
 
                     <div class="form-group">
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "Title" } })
-                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.Assignment.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "Title" } })
+                            @Html.ValidationMessageFor(model => model.Assignment.Title, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description" } })
-                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.Assignment.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description" } })
+                            @Html.ValidationMessageFor(model => model.Assignment.Description, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-10">
-                            @Html.EnumDropDownListFor(model => model.Status, htmlAttributes: new { @class = "form-control", @placeholder = "Status" })
-                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                            @Html.EnumDropDownListFor(model => model.Assignment.Status, htmlAttributes: new { @class = "form-control", @placeholder = "Status" })
+                            @Html.ValidationMessageFor(model => model.Assignment.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">   
+                            @Html.DropDownListFor(
+                                model => model.Assigner,
+                                Model.Assignment.Project.Members.Select(x => new SelectListItem()
+                                {
+                                    Text = x.UserName,
+                                    Selected = (x == Model.Assignment.Assigner),
+                                    Value = x.UserName
+                                }),
+                                null,
+                                new
+                                     {
+                                    @class = "selectpicker col-md-10",
+                                    data_style = "btn-primary",
+                                    data_size = "5",
+                                    data_live_search = "true",
+                                    data_actions_box = "true",
+                                    data_selected_text_format = "count > 3"
+                                }
+                            )                            
+                        @Html.ValidationMessageFor(model => model.Assigner, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">   
+                            @Html.DropDownListFor(
+                                model => model.Assignee,
+                                Model.Assignment.Project.Members.Select(x => new SelectListItem()
+                                {
+                                    Text = x.UserName,
+                                    Selected = (x == Model.Assignment.Assignee),
+                                    Value = x.UserName
+                                }),
+                                null,
+                                new
+                                     {
+                                    @class = "selectpicker col-md-10",
+                                    data_style = "btn-primary",
+                                    data_size = "5",
+                                    data_live_search = "true",
+                                    data_actions_box = "true",
+                                    data_selected_text_format = "count > 3"
+                                }
+                            )                            
+                        @Html.ValidationMessageFor(model => model.Assignee, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Assignment.StartDate, new { htmlAttributes = new { @class = "form-control" }, @type = "datetime-local" })
+                            @Html.ValidationMessageFor(model => model.Assignment.StartDate, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" }, @type = "datetime-local" })
-                            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" }, @type = "datetime-local" })
-                            @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.Assignment.EndDate, new { htmlAttributes = new { @class = "form-control" }, @type = "datetime-local" })
+                            @Html.ValidationMessageFor(model => model.Assignment.EndDate, "", new { @class = "text-danger" })
                         </div>
                     </div>
 

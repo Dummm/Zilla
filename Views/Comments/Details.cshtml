@@ -11,10 +11,13 @@
 </h1>
 <h2 class="pageSubheading">
     <span>@ViewBag.Message</span>
-    <a class="btn btn-primary text-white float-right" href="@Url.Action("Create", "Comments")">
-        <i class="fas fa-plus"></i> Create Comment
+    <a class="btn btn-danger text-white float-right" href="@Url.Action("Delete", "Comments", new { id = Model.CommentId })">
+        <i class="fas fa-trash-alt"></i> Delete
     </a>
-    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Home")">
+    <a class="btn btn-primary float-right mr-1" href="@Url.Action("Edit", "Comments", new { id = Model.CommentId })">
+        <i class="fas fa-edit"></i> Edit
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Details", "Assignments", new { id = Model.Assignment.AssignmentId })">
         <i class="fas fa-arrow-left"></i> Back
     </a>
 </h2>

@@ -46,7 +46,8 @@
                                     data_actions_box = "true",
                                     data_selected_text_format = "count > 3"
                                 }
-                            )
+                            )                            
+                        @Html.ValidationMessageFor(model => model.Asignee, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">

@@ -117,7 +117,7 @@ namespace Zilla.Controllers
                     Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Details", "Assignments", new { id = comment.Assignment.AssignmentId });
             }
             return View(comment);
         }
@@ -144,7 +144,7 @@ namespace Zilla.Controllers
             {
                 db.Entry(comment).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Assignments", new { id = comment.Assignment.AssignmentId });
             }
             return View(comment);
         }
@@ -192,9 +192,10 @@ namespace Zilla.Controllers
                 };
                 return RedirectToAction("Index", "Home");
             }
+            var aid = comment.Assignment.AssignmentId;
             db.Comments.Remove(comment);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Assignments", new { id = aid });
         }
 
         protected override void Dispose(bool disposing)

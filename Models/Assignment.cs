@@ -58,10 +58,21 @@ namespace Zilla.Models
         public Assignment Assignment { get; set; }
 
         [Display(Name = "Added Projects")]
-        public string AddedProject{ get; set; }
+        public string AddedProject { get; set; }
 
         [Display(Name = "Projects")]
         public IEnumerable<SelectListItem> Projects { get; set; }
+    }
+    public class EditAssignmentViewModel
+    {
+        [Display(Name = "Assigner")]
+        public string Assigner { get; set; }
+
+        [Display(Name = "Assignee")]
+        public string Assignee { get; set; }
+
+        [Display(Name = "Assignment")]
+        public Assignment Assignment { get; set; }
     }
 
     public class AddCommentViewModel

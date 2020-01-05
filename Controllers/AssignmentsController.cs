@@ -161,7 +161,10 @@ namespace Zilla.Controllers
                 };
                 return RedirectToAction("Index", "Home");
             }
-            return View(assignment);
+            return View(new EditAssignmentViewModel
+            {
+                Assignment = assignment
+            });
         }
 
         // POST: Assignments/Edit/5
@@ -169,7 +172,7 @@ namespace Zilla.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, [Bind(Include = "Id,Title,Description,Status,StartDate,EndDate")] Assignment model)
+        public async Task<ActionResult> Edit(int id, EditAssignmentViewModel model)
         {
             Assignment assignment = await db.Assignments.FindAsync(id);
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
@@ -185,11 +188,15 @@ namespace Zilla.Controllers
             }
             if (ModelState.IsValid)
             {
-                assignment.Title = model.Title;
-                assignment.Description = model.Description;
-                assignment.Status = model.Status;
-                assignment.StartDate = model.StartDate;
-                assignment.EndDate = model.EndDate;
+                assignment.Title = model.Assignment.Title;
+                assignment.Description = model.Assignment.Description;
+                assignment.Status = model.Assignment.Status;
+                assignment.Assigner = db.Users.Find(UserManager.FindByName(model.Assigner).Id);
+                assignment.Assignee = db.Users.Find(UserManager.FindByName(model.Assignee).Id);
+                System.Diagnostics.Debug.WriteLine(assignment.Assigner.UserName);
+                System.Diagnostics.Debug.WriteLine(assignment.Assignee.UserName);
+                assignment.StartDate = model.Assignment.StartDate;
+                assignment.EndDate = model.Assignment.EndDate;
                 db.Entry(assignment).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Details", "Projects", new { id = assignment.Project.ProjectId });
