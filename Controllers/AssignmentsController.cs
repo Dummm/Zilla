@@ -14,14 +14,37 @@ using Zilla.Models;
 
 namespace Zilla.Controllers
 {
+    [Authorize(Roles = "Administrator, User")]
     public class AssignmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: Assignments
         public async Task<ActionResult> Index()
         {
-            return View(await db.Assignments.ToListAsync());
+            if(HttpContext.User.IsInRole("Administrator"))
+            {
+                return View(await db.Assignments.ToListAsync());
+            }
+            TempData["Toast"] = new Toast
+            {
+                Title = "Project",
+                Body = "nu poti!",
+                Type = ToastType.Danger
+            };
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Assignments/Details/5
@@ -36,6 +59,17 @@ namespace Zilla.Controllers
             {
                 return HttpNotFound();
             }
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Assignment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
+            }
             return View(assignment);
         }
 
@@ -46,15 +80,26 @@ namespace Zilla.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project Project = await db.Projects.FindAsync(projectId);
-            if (Project == null)
+            Project project = await db.Projects.FindAsync(projectId);
+            if (project == null)
             {
                 return HttpNotFound();
             }
-            ApplicationUser user = Project.Members.ElementAt(int.Parse(memberId));
+            ApplicationUser user = project.Members.ElementAt(int.Parse(memberId));
             if (user == null)
             {
                 return HttpNotFound();
+            }
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Assignment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
             }
             return View();
         }
@@ -66,6 +111,17 @@ namespace Zilla.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(string projectId, string memberId, Assignment assignment)
         {
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Assignment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 Project project = await db.Projects.FindAsync(projectId);
@@ -93,6 +149,17 @@ namespace Zilla.Controllers
             {
                 return HttpNotFound();
             }
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Assignment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
+            }
             return View(assignment);
         }
 
@@ -103,6 +170,17 @@ namespace Zilla.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Status,StartDate,EndDate")] Assignment assignment)
         {
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Assignment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(assignment).State = EntityState.Modified;
@@ -124,6 +202,17 @@ namespace Zilla.Controllers
             {
                 return HttpNotFound();
             }
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Assignment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
+            }
             return View(assignment);
         }
 
@@ -133,6 +222,17 @@ namespace Zilla.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Assignment assignment = await db.Assignments.FindAsync(id);
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Assignment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
+            }
             db.Assignments.Remove(assignment);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -161,6 +261,18 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             //return View();
+
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Assignment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
+            }
 
             return View(
                 new AddCommentViewModel

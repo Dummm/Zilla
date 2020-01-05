@@ -8,17 +8,42 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Zilla.Models;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
 
 namespace Zilla.Controllers
 {
+    [Authorize(Roles = "Administrator, User")]
     public class CommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: Comments
         public async Task<ActionResult> Index()
         {
-            return View(await db.Comments.ToListAsync());
+            if (HttpContext.User.IsInRole("Administrator"))
+            {
+                return View(await db.Comments.ToListAsync());
+            }
+            TempData["Toast"] = new Toast
+            {
+                Title = "Project",
+                Body = "nu poti!",
+                Type = ToastType.Danger
+            };
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Comments/Details/5
@@ -32,6 +57,17 @@ namespace Zilla.Controllers
             if (comment == null)
             {
                 return HttpNotFound();
+            }
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(comment.Assignment.Project.Members.Union(comment.Assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Comment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
             }
             return View(comment);
         }
@@ -71,6 +107,17 @@ namespace Zilla.Controllers
             {
                 return HttpNotFound();
             }
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(comment.Assignment.Project.Members.Union(comment.Assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Comment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
+            }
             return View(comment);
         }
 
@@ -81,6 +128,17 @@ namespace Zilla.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "CommentId,Content,CreationDate")] Comment comment)
         {
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(comment.Assignment.Project.Members.Union(comment.Assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Comment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(comment).State = EntityState.Modified;
@@ -102,6 +160,17 @@ namespace Zilla.Controllers
             {
                 return HttpNotFound();
             }
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(comment.Assignment.Project.Members.Union(comment.Assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Comment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
+            }
             return View(comment);
         }
 
@@ -111,6 +180,17 @@ namespace Zilla.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Comment comment = await db.Comments.FindAsync(id);
+            ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            if (!(comment.Assignment.Project.Members.Union(comment.Assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            {
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Comment",
+                    Body = "nu poti!",
+                    Type = ToastType.Danger
+                };
+                return RedirectToAction("Index", "Home");
+            }
             db.Comments.Remove(comment);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

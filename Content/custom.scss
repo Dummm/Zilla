@@ -97,6 +97,15 @@ $navbar-dark-color: rgba($white, .6);
         font-size: initial;
     }
 
+    .list-group {
+        h5 {
+            text-overflow: ellipsis;
+            width: 0rem;
+            overflow: hidden;
+            flex: 1;
+        }
+    }
+
     .userAvatar {
         width: 2rem;
         height: 2rem;
