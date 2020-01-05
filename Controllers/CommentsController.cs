@@ -40,7 +40,7 @@ namespace Zilla.Controllers
             TempData["Toast"] = new Toast
             {
                 Title = "Project",
-                Body = "nu poti!",
+                Body = "Access unauthorized!",
                 Type = ToastType.Danger
             };
             return RedirectToAction("Index", "Home");
@@ -58,13 +58,14 @@ namespace Zilla.Controllers
             {
                 return HttpNotFound();
             }
+            
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(comment.Assignment.Project.Members.Union(comment.Assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(comment.Assignment.Project) || au.MemberInProjects.Contains(comment.Assignment.Project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Comment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -108,12 +109,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(comment.Assignment.Project.Members.Union(comment.Assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(comment.Assignment.Project) || au.MemberInProjects.Contains(comment.Assignment.Project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Comment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -129,12 +130,12 @@ namespace Zilla.Controllers
         public async Task<ActionResult> Edit([Bind(Include = "CommentId,Content,CreationDate")] Comment comment)
         {
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(comment.Assignment.Project.Members.Union(comment.Assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(comment.Assignment.Project) || au.MemberInProjects.Contains(comment.Assignment.Project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Comment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -161,12 +162,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(comment.Assignment.Project.Members.Union(comment.Assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(comment.Assignment.Project) || au.MemberInProjects.Contains(comment.Assignment.Project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Comment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -181,12 +182,12 @@ namespace Zilla.Controllers
         {
             Comment comment = await db.Comments.FindAsync(id);
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(comment.Assignment.Project.Members.Union(comment.Assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(comment.Assignment.Project) || au.MemberInProjects.Contains(comment.Assignment.Project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Comment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");

@@ -91,14 +91,14 @@
                             foreach (var comment in assignment.Comments.Where(c => c.Author == Model))
                             {
                                 <a href="@Url.Action("Details", "Comments", new { id = comment.CommentId})"
-                                    class="list-group-item list-group-item-action">
+                                   class="list-group-item list-group-item-action">
                                     <div class="d-flex w-100 justify-content-between">
                                         <h5 class="mb-1">
                                             @Html.DisplayFor(modelItem => project.Title) | @Html.DisplayFor(modelItem => assignment.Title)
                                         </h5>
                                     </div>
                                     <p class="mb-1">
-                                            @Html.DisplayFor(modelItem => comment.Content)
+                                        @Html.DisplayFor(modelItem => comment.Content)
                                     </p>
                                     <small>
                                         @Html.DisplayFor(modelItem => comment.CreationDate)
@@ -108,6 +108,33 @@
                         }
                     }
 
+                </div>
+            </div>
+        </div>
+        <div id="teamAssignments">
+            <h3>
+                <i class="fas fa-building" data-fa-transform="shrink-1 up-2 right-2" style="background:#EF9A9A"></i>
+                Team Assignments
+            </h3>
+            <div>
+                <div class="list-group">
+                    @foreach (var project in Model.MemberInProjects.Union(Model.OrganizerInProjects))
+                    {
+                        foreach (var assignment in project.Assignments.Where(a => a.Assignee != Model))
+                        {
+                            <a href="@Url.Action("Details", "Assignments", new { id = assignment.AssignmentId })"
+                               class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">
+                                        @Html.DisplayFor(modelItem => project.Title) | @Html.DisplayFor(modelItem => assignment.Title)
+                                    </h5>
+                                </div>
+                                <small>
+                                    @Html.DisplayFor(modelItem => assignment.StartDate) - @Html.DisplayFor(modelItem => assignment.EndDate)
+                                </small>
+                            </a>
+                        }
+                    }
                 </div>
             </div>
         </div>

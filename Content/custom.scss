@@ -87,6 +87,7 @@ $navbar-dark-color: rgba($white, .6);
 
     h1, h2, h3, h4, h5, h6 {
         font-weight: bold !important;
+        margin-bottom: 1rem !important;
 
         span {
             font-family: 'PT Mono' !important;
@@ -97,6 +98,8 @@ $navbar-dark-color: rgba($white, .6);
         font-size: initial;
     }
 
+    word-break: break-word;
+
     .list-group {
         h5 {
             text-overflow: ellipsis;
@@ -105,6 +108,7 @@ $navbar-dark-color: rgba($white, .6);
             flex: 1;
         }
     }
+
 
     .userAvatar {
         width: 2rem;
@@ -126,7 +130,7 @@ $navbar-dark-color: rgba($white, .6);
     .pageHeading {
         font-size: 5rem;
         font-weight: bold;
-        margin-bottom: 2rem;
+        margin-bottom: 2rem !important;
 
         span {
             margin-left: 0.5rem;
@@ -140,10 +144,14 @@ $navbar-dark-color: rgba($white, .6);
         padding: 0.75rem 2rem;
         background: linear-gradient(90deg, $accent-darker, #FFFFFF 80%);
         color: white;
-        margin-bottom: 2rem;
+        margin-bottom: 2rem !important;
 
         span {
-            letter-spacing: 1rem;
+            letter-spacing: .6rem;
+        }
+
+        .headingButtons {
+            display: inline-block;
         }
     }
 

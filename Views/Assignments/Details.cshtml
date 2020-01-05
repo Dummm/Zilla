@@ -11,10 +11,13 @@
 </h1>
 <h2 class="pageSubheading">
     <span>@ViewBag.Message</span>
-    <a class="btn btn-primary text-white float-right" href="@Url.Action("Create", "Assignments")">
-        <i class="fas fa-plus"></i> Create Project
+    <a class="btn btn-danger text-white float-right" href="@Url.Action("Delete", "Assignments", new { id = Model.AssignmentId })">
+        <i class="fas fa-trash-alt"></i> Delete
     </a>
-    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Index", "Home")">
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Edit", "Assignments", new { id = Model.AssignmentId })">
+        <i class="fas fa-edit"></i> Edit
+    </a>
+    <a class="btn btn-primary text-white float-right mr-1" href="@Url.Action("Details", "Projects", new { id = Model.Project.ProjectId })">
         <i class="fas fa-arrow-left"></i> Back
     </a>
 </h2>
@@ -146,7 +149,7 @@
                         <div class="card-footer text-muted small">
                             <span>
                                 <div class="userAvatar">
-                                    <img src="data:image;base64,@Html.DisplayFor(model => model.Assigner.Avatar)" />
+                                    <img src="data:image;base64,@Html.DisplayFor(model => item.Author.Avatar)" />
                                 </div>@Html.DisplayFor(modelItem => item.Author.UserName)
                             </span>
                             <span class="float-right">

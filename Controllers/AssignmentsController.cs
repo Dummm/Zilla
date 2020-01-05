@@ -41,7 +41,7 @@ namespace Zilla.Controllers
             TempData["Toast"] = new Toast
             {
                 Title = "Project",
-                Body = "nu poti!",
+                Body = "Access unauthorized!",
                 Type = ToastType.Danger
             };
             return RedirectToAction("Index", "Home");
@@ -59,13 +59,14 @@ namespace Zilla.Controllers
             {
                 return HttpNotFound();
             }
+            
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(assignment.Project) || au.MemberInProjects.Contains(assignment.Project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Assignment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -91,12 +92,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || au.MemberInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Assignment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -112,12 +113,12 @@ namespace Zilla.Controllers
         public async Task<ActionResult> Create(string projectId, string memberId, Assignment assignment)
         {
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(assignment.Project) || au.MemberInProjects.Contains(assignment.Project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Assignment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -150,12 +151,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(assignment.Project) || au.MemberInProjects.Contains(assignment.Project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Assignment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -168,26 +169,32 @@ namespace Zilla.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Status,StartDate,EndDate")] Assignment assignment)
+        public async Task<ActionResult> Edit(int id, [Bind(Include = "Id,Title,Description,Status,StartDate,EndDate")] Assignment model)
         {
+            Assignment assignment = await db.Assignments.FindAsync(id);
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(assignment.Project) || au.MemberInProjects.Contains(assignment.Project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Assignment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
             }
             if (ModelState.IsValid)
             {
+                assignment.Title = model.Title;
+                assignment.Description = model.Description;
+                assignment.Status = model.Status;
+                assignment.StartDate = model.StartDate;
+                assignment.EndDate = model.EndDate;
                 db.Entry(assignment).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Projects", new { id = assignment.Project.ProjectId });
             }
-            return View(assignment);
+            return View(model);
         }
 
         // GET: Assignments/Delete/5
@@ -203,12 +210,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(assignment.Project) || au.MemberInProjects.Contains(assignment.Project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Assignment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -223,12 +230,12 @@ namespace Zilla.Controllers
         {
             Assignment assignment = await db.Assignments.FindAsync(id);
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(assignment.Project) || au.MemberInProjects.Contains(assignment.Project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Assignment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -263,12 +270,12 @@ namespace Zilla.Controllers
             //return View();
 
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(assignment.Project.Members.Union(assignment.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(assignment.Project) || au.MemberInProjects.Contains(assignment.Project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Assignment",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");

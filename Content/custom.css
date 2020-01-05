@@ -4432,7 +4432,8 @@ $theme-colors: (
 );
 */
 * {
-  font-family: 'Open Sans'; }
+  font-family: 'Open Sans';
+  word-break: break-word; }
   * .btn {
     border: 0 !important; }
   * .btn:hover {
@@ -4440,7 +4441,8 @@ $theme-colors: (
   * .navbar * {
     font-family: 'PT Mono' !important; }
   * h1, * h2, * h3, * h4, * h5, * h6 {
-    font-weight: bold !important; }
+    font-weight: bold !important;
+    margin-bottom: 1rem !important; }
     * h1 span, * h2 span, * h3 span, * h4 span, * h5 span, * h6 span {
       font-family: 'PT Mono' !important; }
   * dt {
@@ -4465,7 +4467,7 @@ $theme-colors: (
   * .pageHeading {
     font-size: 5rem;
     font-weight: bold;
-    margin-bottom: 2rem; }
+    margin-bottom: 2rem !important; }
     * .pageHeading span {
       margin-left: 0.5rem;
       text-shadow: -0.3rem 0.3rem #EF9A9A; }
@@ -4475,9 +4477,11 @@ $theme-colors: (
     padding: 0.75rem 2rem;
     background: linear-gradient(90deg, #f76969, #FFFFFF 80%);
     color: white;
-    margin-bottom: 2rem; }
+    margin-bottom: 2rem !important; }
     * .pageSubheading span {
-      letter-spacing: 1rem; }
+      letter-spacing: .6rem; }
+    * .pageSubheading .headingButtons {
+      display: inline-block; }
   * .pageContent #dashboard {
     display: grid;
     grid-template-columns: repeat(2, auto);

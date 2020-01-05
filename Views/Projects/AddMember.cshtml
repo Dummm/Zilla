@@ -25,37 +25,38 @@
     </a>
 </h2>
 <div class="pageContent">
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h4>Member</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <div class="col-md-10">
-                    @Html.DropDownListFor(
-                        model => model.AddedMembers,
-                        Model.Users,
-                        "Select users",
-                        new {
-                            @class = "selectpicker",
-                            data_style = "btn-light",
-                            data_size = "5",
-                            data_live_search = "true",
-                            data_actions_box = "true",
-                            data_selected_text_format = "count > 3"
-                        }
-                    )
-                </div>
-            </div>
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                            @Html.DropDownListFor(
+                                model => model.AddedMembers,
+                                Model.Users,
+                                "Select user",
+                                new
+                                     {
+                                    @class = "selectpicker col-md-10",
+                                    data_style = "btn-primary",
+                                    data_size = "5",
+                                    data_live_search = "true",
+                                    data_actions_box = "true",
+                                    data_selected_text_format = "count > 3"
+                                }
+                            )
+                    </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <div class="form-group">
+                        <div class="col-md-10 d-flex justify-content-center">
+                            <input type="submit" value="Add Member" class="btn btn-primary" />
+                        </div>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
-    }
+    </div>
 </div>

@@ -25,78 +25,71 @@
     </a>
 </h2>
 <div class="pageContent">
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            @using (Html.BeginForm( new { @class="form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h4>Member</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <div class="col-md-10">
-                    @Html.DropDownListFor(
-                        model => model.Asignee,
-                        Model.Members,
-                        "Select users",
-                        new
-                             {
-                            @class = "selectpicker",
-                            data_style = "btn-light",
-                            data_size = "5",
-                            data_live_search = "true",
-                            data_actions_box = "true",
-                            data_selected_text_format = "count > 3"
-                        }
-                    )
-                </div>
-            </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">   
+                            @Html.DropDownListFor(
+                                model => model.Asignee,
+                                Model.Members,
+                                "Select user",
+                                new
+                                     {
+                                    @class = "selectpicker col-md-10",
+                                    data_style = "btn-primary",
+                                    data_size = "5",
+                                    data_live_search = "true",
+                                    data_actions_box = "true",
+                                    data_selected_text_format = "count > 3"
+                                }
+                            )
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Assignment.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Assignment.Title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Assignment.Title, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Assignment.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "Title" } })
+                            @Html.ValidationMessageFor(model => model.Assignment.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Assignment.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Assignment.Description, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Assignment.Description, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Assignment.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description" } })
+                            @Html.ValidationMessageFor(model => model.Assignment.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Assignment.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EnumDropDownListFor(model => model.Assignment.Status, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Assignment.Status, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EnumDropDownListFor(model => model.Assignment.Status, htmlAttributes: new { @class = "form-control", @placeholder = "Status" })
+                            @Html.ValidationMessageFor(model => model.Assignment.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Assignment.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Assignment.StartDate, new { htmlAttributes = new { @class = "form-control",  @type = "datetime-local"  } })
-                    @Html.ValidationMessageFor(model => model.Assignment.StartDate, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Assignment.StartDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Start Date", @type = "datetime-local" } })
+                            @Html.ValidationMessageFor(model => model.Assignment.StartDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Assignment.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Assignment.EndDate, new { htmlAttributes = new { @class = "form-control",  @type = "datetime-local"  } })
-                    @Html.ValidationMessageFor(model => model.Assignment.EndDate, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Assignment.EndDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "End Date", @type = "datetime-local" } })
+                            @Html.ValidationMessageFor(model => model.Assignment.EndDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <div class="col-md-10 d-flex justify-content-center">
+                            <input type="submit" value="Add assignment" class="btn btn-primary" />
+                        </div>
+                    </div>
+            }
         </div>
-    }
+    </div>
 </div>

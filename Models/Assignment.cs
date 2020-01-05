@@ -37,8 +37,12 @@ namespace Zilla.Models
         public DateTime EndDate { get; set; }
 
 
+        public string? Assigner_Id { get; set; }
+        [ForeignKey("Assigner_Id")]
         public virtual ApplicationUser Assigner { get; set; }
 
+        public string? Assignee_Id { get; set; }
+        [ForeignKey("Assignee_Id")]
         public virtual ApplicationUser Assignee { get; set; }
 
         //[ForeignKey("ProjectId")]

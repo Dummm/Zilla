@@ -42,7 +42,7 @@ namespace Zilla.Controllers
             TempData["Toast"] = new Toast
             {
                 Title = "Project",
-                Body = "nu poti!",
+                Body = "Access unauthorized!",
                 Type = ToastType.Danger
             };
             return RedirectToAction("Index", "Home");
@@ -61,12 +61,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || au.MemberInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -87,12 +87,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || au.MemberInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -108,12 +108,12 @@ namespace Zilla.Controllers
         public async Task<ActionResult> Members([Bind(Include = "ProjectId,Members")] Project project)
         {
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || au.MemberInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -140,12 +140,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || au.MemberInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -171,23 +171,23 @@ namespace Zilla.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddMember(
             string id,
-            AddMemberViewModel project)
+            AddMemberViewModel model)
         {
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Project.Members.Union(project.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            Project project = await db.Projects.FindAsync(int.Parse(id));
+            if (!(au.OrganizerInProjects.Contains(project) || au.MemberInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
             }
             if (ModelState.IsValid)
             {
-                Project p = db.Projects.Find(int.Parse(id));
-                foreach(string username in project.AddedMembers)
+                foreach(string username in model.AddedMembers)
                 {
                     ApplicationUser user = await UserManager.FindByNameAsync(username);
                     user = db.Users.Find(user.Id);
@@ -195,7 +195,7 @@ namespace Zilla.Controllers
                         //db.ProjectMembers.Add(new ProjectMembers {
                         //    ProjectId = t.ProjectId, 
                         //    ApplicationUserId = user.Id });
-                        p.Members.Add(user);
+                        project.Members.Add(user);
 
                 }
 
@@ -207,7 +207,7 @@ namespace Zilla.Controllers
                     Type = ToastType.Success
                 };
 
-                return RedirectToAction("Details", new { id = p.ProjectId });
+                return RedirectToAction("Details", new { id = project.ProjectId });
             }
             TempData["Toast"] = new Toast
             {
@@ -215,7 +215,7 @@ namespace Zilla.Controllers
                 Body = "Member add unsuccessful!",
                 Type = ToastType.Danger
             };
-            return View(project);
+            return View(model);
         }
 
         // Get: Projects/RemoveMember/5/1
@@ -238,12 +238,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || au.MemberInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -267,12 +267,13 @@ namespace Zilla.Controllers
             RemoveMemberViewModel model)
         {
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(model.Project.Members.Union(model.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            Project p = await db.Projects.FindAsync(int.Parse(id));
+            if (!(au.OrganizerInProjects.Contains(p) || au.MemberInProjects.Contains(p) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -280,12 +281,11 @@ namespace Zilla.Controllers
             if (ModelState.IsValid)
             {
                 
-                Project t = await db.Projects.FindAsync(int.Parse(id));
                 ApplicationUser u = db.Users.Find(
-                    t.Members.ElementAt(int.Parse(memberIndex)).Id
+                    p.Members.ElementAt(int.Parse(memberIndex)).Id
                 );
 
-                t.Members.Remove(u);
+                p.Members.Remove(u);
                 
                 await db.SaveChangesAsync();
                 TempData["Toast"] = new Toast
@@ -294,7 +294,7 @@ namespace Zilla.Controllers
                     Body = "Member successfully removed!",
                     Type = ToastType.Success
                 };
-                return RedirectToAction("Details", new { id = t.ProjectId });
+                return RedirectToAction("Details", new { id = p.ProjectId });
             }
             TempData["Toast"] = new Toast
             {
@@ -319,12 +319,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || au.MemberInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -340,12 +340,12 @@ namespace Zilla.Controllers
         public async Task<ActionResult> Organizers([Bind(Include = "ProjectId,Organizers")] Project project)
         {
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || au.MemberInProjects.Contains(project)  || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -372,12 +372,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || au.MemberInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -407,19 +407,19 @@ namespace Zilla.Controllers
             AddOrganizerViewModel project)
         {
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Project.Members.Union(project.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            Project p = db.Projects.Find(int.Parse(id));
+            if (!(au.OrganizerInProjects.Contains(p) || au.MemberInProjects.Contains(p) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
             }
             if (ModelState.IsValid)
             {
-                Project p = db.Projects.Find(int.Parse(id));
                 foreach (string username in project.AddedOrganizers)
                 {
                     ApplicationUser user = await UserManager.FindByNameAsync(username);
@@ -472,12 +472,13 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            Project p = db.Projects.Find(int.Parse(id));
+            if (!(au.OrganizerInProjects.Contains(p) || au.MemberInProjects.Contains(p) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -501,12 +502,13 @@ namespace Zilla.Controllers
             RemoveOrganizerViewModel model)
         {
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(model.Project.Members.Union(model.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            Project p = await db.Projects.FindAsync(int.Parse(id));
+            if (!(au.OrganizerInProjects.Contains(p) || au.MemberInProjects.Contains(p) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -514,12 +516,11 @@ namespace Zilla.Controllers
             if (ModelState.IsValid)
             {
 
-                Project t = await db.Projects.FindAsync(int.Parse(id));
                 ApplicationUser u = db.Users.Find(
-                    t.Organizers.ElementAt(int.Parse(organizerIndex)).Id
+                    p.Organizers.ElementAt(int.Parse(organizerIndex)).Id
                 );
 
-                t.Organizers.Remove(u);
+                p.Organizers.Remove(u);
 
                 await db.SaveChangesAsync();
                 TempData["Toast"] = new Toast
@@ -528,7 +529,7 @@ namespace Zilla.Controllers
                     Body = "Organizer successfully removed!",
                     Type = ToastType.Success
                 };
-                return RedirectToAction("Details", new { id = t.ProjectId });
+                return RedirectToAction("Details", new { id = p.ProjectId });
             }
             TempData["Toast"] = new Toast
             {
@@ -554,12 +555,12 @@ namespace Zilla.Controllers
             //return View();
 
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -586,12 +587,13 @@ namespace Zilla.Controllers
         public async Task<ActionResult> AddAssignment(int? id, AddAssignmentViewModel vm)
         {
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(vm.Project.Members.Union(vm.Project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            Project p = await db.Projects.FindAsync(id);
+            if (!(au.OrganizerInProjects.Contains(p) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -599,12 +601,11 @@ namespace Zilla.Controllers
             //if (ModelState.IsValid)
             //{
             Assignment a = vm.Assignment;
-                a.Assigner = db.Users.Find(HttpContext.User.Identity.GetUserId());
-                a.Assignee = db.Users.Find(UserManager.FindByName(vm.Asignee).Id);
-                db.Assignments.Add(a);
+            a.Assigner = db.Users.Find(HttpContext.User.Identity.GetUserId());
+            a.Assignee = db.Users.Find(UserManager.FindByName(vm.Asignee).Id);
+            db.Assignments.Add(a);
 
-            Project p = db.Projects.Find(id);
-                p.Assignments.Add(a);
+            p.Assignments.Add(a);
 
                 await db.SaveChangesAsync();
 
@@ -660,12 +661,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -678,15 +679,19 @@ namespace Zilla.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ProjectId,Title,Description")] Project project)
+        public async Task<ActionResult> Edit(int id, [Bind(Include = "ProjectId,Title,Description")] Project model)
         {
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            Project project = await db.Projects.FindAsync(id);
+            project.Description = model.Description;
+            project.Title = model.Title;
+            System.Diagnostics.Debug.WriteLine(project.Organizers.Count);
+            if (!(au.OrganizerInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -695,9 +700,15 @@ namespace Zilla.Controllers
             {
                 db.Entry(project).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                TempData["Toast"] = new Toast
+                {
+                    Title = "Project",
+                    Body = "Project edited successfully!",
+                    Type = ToastType.Success
+                };
+                return RedirectToAction("Details", "Projects", new { id = model.ProjectId });
             }
-            return View(project);
+            return View(model);
         }
 
         // GET: Projects/Delete/5
@@ -713,12 +724,12 @@ namespace Zilla.Controllers
                 return HttpNotFound();
             }
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || au.MemberInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
@@ -733,19 +744,19 @@ namespace Zilla.Controllers
         {
             Project project = await db.Projects.FindAsync(id);
             ApplicationUser au = db.Users.Find(HttpContext.User.Identity.GetUserId());
-            if (!(project.Members.Union(project.Organizers).Contains(au) || UserManager.IsInRole(au.Id, "Administrator")))
+            if (!(au.OrganizerInProjects.Contains(project) || UserManager.IsInRole(au.Id, "Administrator")))
             {
                 TempData["Toast"] = new Toast
                 {
                     Title = "Project",
-                    Body = "nu poti!",
+                    Body = "Access unauthorized!",
                     Type = ToastType.Danger
                 };
                 return RedirectToAction("Index", "Home");
             }
             db.Projects.Remove(project);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         protected override void Dispose(bool disposing)

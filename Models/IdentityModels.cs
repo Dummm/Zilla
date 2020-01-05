@@ -29,6 +29,12 @@ namespace Zilla.Models
         public virtual ICollection<Project> MemberInProjects { get; set; }
         [InverseProperty("Organizers")]
         public virtual ICollection<Project> OrganizerInProjects { get; set; }
+
+        [InverseProperty("Assigner")]
+        public virtual ICollection<Assignment> AssignerInAssignments { get; set; }
+        [InverseProperty("Assignee")]
+        public virtual ICollection<Assignment> AssigneeInAssignments { get; set; }
+
         public string Avatar { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -68,6 +74,32 @@ namespace Zilla.Models
                 .HasMany(a => a.Comments)
                 .WithRequired(c => c.Assignment)
                 .WillCascadeOnDelete(true);
+
+            /*
+            modelBuilder.Entity<Assignment>()
+                .HasOptional(a => a.Assignee)
+                .WithMany(u => u.AssigneeInAssignments)
+                .HasForeignKey(b => new { b.Assignee_Id })
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Assignment>()
+                .HasOptional(a => a.Assigner)
+                .WithMany(u => u.AssignerInAssignments)
+                .HasForeignKey(b => new { b.Assigner_Id })
+                .WillCascadeOnDelete(false);
+                */
+            /*
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany(u => u.AssignerInAssignments)
+                .WithOptional(a => a.Assigner)
+                .HasForeignKey(a => a.Assigner_Id)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany(u => u.AssigneeInAssignments)
+                .WithOptional(a => a.Assignee)
+                .HasForeignKey(a => a.Assignee_Id)
+                .WillCascadeOnDelete(false);
+                */
+
 
             /// Many to many
             /*

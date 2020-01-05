@@ -134,7 +134,7 @@
                 model => model.Roles, 
                 new SelectList(Model.Roles, "Value", "Text"),
                 new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(role, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.Roles, "", new { @class = "text-danger" })
         </div>
     </div>
 
