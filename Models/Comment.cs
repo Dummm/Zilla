@@ -11,10 +11,13 @@ namespace Zilla.Models
         [Key]
         public int CommentId { get; set; }
 
-        [Required(ErrorMessage = "baga, ba, text")]
+        [Required(ErrorMessage = "nu")]
         public string Content { get; set; }
 
         public DateTime CreationDate { get; set; }
+
+
+
         public virtual ApplicationUser Author { get; set; }
 
         public virtual Assignment Assignment { get; set; }
