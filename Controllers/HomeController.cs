@@ -34,6 +34,7 @@ namespace Zilla.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Administrator, User")]
         [Route("Dashboard")]
         public ActionResult Dashboard()
         {
